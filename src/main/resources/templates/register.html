@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PawFinder</title>
+    <script src="https://kit.fontawesome.com/f4eab0c21e.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" type="text/css" href="/css/register.css">
+    <link rel="stylesheet" type="text/css" href="/css/commons.css">
+</head>
+<body>
+
+<header th:replace="~{fragments/commons::header}"></header>
+
+<article>
+    <div class="container">
+        <img src="/images/4d4081945cf5495ab525fcf738344b0b.jpg" alt="Family with a pet">
+
+        <div class="form-container"></div>
+        <form th:action="@{/register}" th:method="POST" th:object="${registerRequest}">
+
+            <h2>Create your account</h2>
+
+            <label for="firstName"></label>
+            <section class="input-icon">
+                <i class="fa-solid fa-user"></i>
+                <input type="text" placeholder="First name" id="firstName" th:field="*{firstName}" required>
+                <p class="input-error" th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}"></p>
+            </section>
+
+            <label for="lastName"></label>
+            <section class="input-icon">
+                <i class="fa-solid fa-user"></i>
+                <input type="text" placeholder="Last name" id="lastName" th:field="*{lastName}" required>
+                <p class="input-error" th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}"></p>
+            </section>
+
+            <label for="username"></label>
+            <section class="input-icon">
+                <i class="fa-solid fa-circle-user"></i>
+                <input type="text" placeholder="Username" id="username" th:field="*{username}" required>
+                <p class="input-error" th:if="${#fields.hasErrors('username')}" th:errors="*{username}"></p>
+            </section>
+
+            <label for="password"></label>
+            <section class="input-icon">
+                <i class="fa-solid fa-lock"></i>
+                <input type="password" placeholder="Password" id="password" th:field="*{password}" required>
+                <p class="input-error" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></p>
+            </section>
+
+            <label for="confirmPassword"></label>
+            <section class="input-icon">
+                <i class="fa-solid fa-user-lock"></i>
+                <input type="password" placeholder="Confirm password" id="confirmPassword" th:field="*{confirmPassword}"
+                       required>
+                <p class="input-error" th:if="${#fields.hasErrors('confirmPassword')}"
+                   th:errors="*{confirmPassword}"></p>
+            </section>
+
+            <label for="country"></label>
+            <select id="country" th:field="*{country}" required>
+                <optgroup label="Choose a country">
+                    <option value="" selected style="display:none">Choose a country</option>
+                    <option th:each="country : ${T(app.user.model.Country).values()}" th:value="${country}"
+                            th:text="${T(app.util.StringFormatter).formatCountries(country)}">
+                    </option>
+            </select>
+                    <p class="input-error" th:if="${#fields.hasErrors('country')}" th:errors="*{country}"></p>
+
+
+            <button>Register</button>
+            <div class="login-move">
+                <p>Already have an account? <a th:href="@{/login}">Log in</a>!</p>
+            </div>
+        </form>
+    </div>
+</article>
+
+<footer class="footer-index-without-line">
+    <p>©PawFinder LTD. All rights reserved.</p>
+</footer>
+</body>
+</html>

@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PawFinder</title>
+    <script src="https://kit.fontawesome.com/f4eab0c21e.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" type="text/css" href="/css/commons.css">
+    <link rel="stylesheet" type="text/css" href="/css/adoption.css">
+</head>
+<body>
+
+<header th:replace="~{fragments/commons::header}"></header>
+
+<article>
+    <div class="form-container"></div>
+    <form th:action="@{'/pets-for-adoption/' + ${pet.id} + '/info/adoption'}" th:method="POST"
+          th:object="${adoptionRequest}">
+
+        <div class="title-pet">
+            <h2 th:text="'Adopt ' + ${pet.name}"></h2>
+            <i class="fa-solid fa-paw"></i>
+        </div>
+
+        <label for="fullName">Full name</label>
+        <input type="text" placeholder="Full name" id="fullName" th:field="*{fullName}" required>
+        <p class="input-error" th:if="${#fields.hasErrors('fullName')}" th:errors="*{fullName}"></p>
+
+        <label for="age">Age</label>
+        <input type="number" placeholder="Age" id="age" th:field="*{age}" required>
+        <p class="input-error" th:if="${#fields.hasErrors('age')}" th:errors="*{age}"></p>
+
+        <label for="address">Address</label>
+        <input type="text" placeholder="Address" id="address" th:field="*{address}" required>
+        <p class="input-error" th:if="${#fields.hasErrors('address')}" th:errors="*{address}"></p>
+
+        <label for="city">City</label>
+        <input type="text" placeholder="City" id="city" th:field="*{city}" required>
+        <p class="input-error" th:if="${#fields.hasErrors('city')}" th:errors="*{city}"></p>
+
+        <p class="owning-pets">Do you own any pets?</p>
+        <div class="container-checkbox">
+            <label for="ownOtherPetsYes" class="radio-label">
+                <input type="radio" id="ownOtherPetsYes" name="ownOtherPets" value="Yes" th:field="*{ownOtherPets}">Yes
+            </label>
+            <label for="ownOtherPetsNo" class="radio-label">
+                <input type="radio" id="ownOtherPetsNo" name="ownOtherPets" value="No" th:field="*{ownOtherPets}">No
+            </label>
+        </div>
+
+        <p class="owning-pets">Do you own your home?</p>
+        <div class="container-checkbox">
+            <label for="ownHomeYes" class="radio-label">
+                <input type="radio" id="ownHomeYes" name="ownHome" value="Yes" th:field="*{ownHome}">Yes
+            </label>
+            <label for="ownHomeNo" class="radio-label">
+                <input type="radio" id="ownHomeNo" name="ownHome" value="No" th:field="*{ownHome}">No
+            </label>
+        </div>
+
+        <p class="owning-pets">Do you have a yard?</p>
+        <div class="container-checkbox">
+            <label for="ownYardYes" class="radio-label">
+                <input type="radio" id="ownYardYes" name="ownYard" value="Yes" th:field="*{ownYard}">Yes
+            </label>
+            <label for="ownYardNo" class="radio-label">
+                <input type="radio" id="ownYardNo" name="ownYard" value="No" th:field="*{ownYard}">No
+            </label>
+        </div>
+        <button type="submit">Submit</button>
+    </form>
+</article>
+
+<footer class="same-background" th:replace="~{fragments/commons::footer}"></footer>
+</body>
+</html>

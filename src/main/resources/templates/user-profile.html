@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PawFinder</title>
+    <script src="https://kit.fontawesome.com/f4eab0c21e.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" type="text/css" href="/css/commons.css">
+    <link rel="stylesheet" type="text/css" href="/css/user-profile.css">
+</head>
+<body>
+
+<header th:replace="~{fragments/commons::header}"></header>
+
+<article class="main-container">
+    <article class="profile-main-info">
+        <section class="profile-picture">
+            <img th:src="${user.profilePicture}" alt="Profile picture">
+        </section>
+        <section class="info">
+            <section class="user-info">
+                <h2 th:text="${user.firstName} + ' ' + ${user.lastName}"></h2>
+                <p><i class="fa-solid fa-user"></i> <span th:text="'Username: ' + ${user.username}"></span></p>
+                <p><i class="fa-solid fa-globe"></i> <span
+                        th:text="'Country: ' + ${T(app.util.StringFormatter).formatCountries(user.country)}"></span></p>
+                <p><i class="fa-solid fa-envelope"></i>
+                    <span th:text="${user.email} ? 'Email: ' + user.email : 'Email: Edit your profile to add email'"></span>
+                </p>
+            </section>
+            <section class="edit-profile">
+                <button type="submit">EDIT</button>
+            </section>
+            <section class="created-profile">
+                <p th:text="'Created profile: ' + ${#temporals.format(user.createdOn, 'dd-MM-yyyy HH:mm')}"></p>
+            </section>
+        </section>
+    </article>
+</article>
+<footer class="same-background" th:replace="~{fragments/commons::footer}"></footer>
+</body>
+</html>

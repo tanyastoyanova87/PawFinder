@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PawFinder</title>
+    <link rel="stylesheet" type="text/css" href="/css/index.css">
+    <link rel="stylesheet" type="text/css" href="/css/commons.css">
+    <script src="https://kit.fontawesome.com/f4eab0c21e.js" crossorigin="anonymous"></script>
+</head>
+<body>
+<header>
+    <nav class="nav-bar">
+        <a th:href="@{/}"><img class="logo-bar" src="/images/6NKIHA-LogoMakr.png" alt="Logo Image"></a>
+        <ul class="ul-bar">
+            <li class="li-bar"><a class="link-bar" th:href="@{/pets-for-adoption}">ADOPT A PET</a></li>
+            <li class="li-bar"><a class="link-bar" th:href="@{/pets-care}">PET CARE
+                <ul class="submenu">
+                    <li><a class="submenu-a" th:href="@{/cat-care}">CAT</a>
+                    </li>
+                    <li><a class="submenu-a" th:href="@{/dog-care}">DOG</a>
+                    </li>
+                </ul>
+            </a></li>
+            <li class="li-bar"><a class="link-bar" href="#">CONTACT US</a></li>
+            <li th:if="${user != null} and ${user.role.name() == 'ADMIN'}" class="li-bar"><a class="link-bar" th:href="@{/admin-panel}">ADMIN PANEL</a></li>
+<!--            <li th:if="${user != null}" class="li-bar"><a class="link-bar" th:href="@{/logout}">LOGOUT</a></li>-->
+            <div class="profile-dropdown">
+                <ul class="profile-picture-nav" th:if="${user != null}">
+                    <li class="li-bar profile-pic-nav-li">
+                        <a class="link-bar profile-dropdown-btn">
+                            <img th:src="${user.profilePicture}" alt="Profile picture">
+                        </a>
+                    </li>
+                    <p th:text="${'Hello, ' + user.username}"></p>
+                </ul>
+
+                <ul class="profile-dropdown-content" th:if="${user != null}">
+                    <li class="li-bar"><a class="link-bar" th:href="@{'/' + ${user.id} + '/profile'}">Profile</a></li>
+                    <li class="li-bar"><a class="link-bar" th:href="@{'/' + ${user.id} + '/profile/adoption-requests'}">My
+                        requests</a></li>
+                    <li class="li-bar"><a class="link-bar"
+                                          th:href="@{'/' + ${user.id} + '/profile/completed-adoptions'}">My Adoptions</a></li>
+                    <li class="li-bar"><a class="link-bar"
+                                          th:href="@{/logout}">Logout</a></li>
+                </ul>
+            </div>
+        </ul>
+    </nav>
+</header>
+
+<footer class="same-background">
+    <article class="footer-main-page">
+        <section class="useful-links">
+            <p>RESOURCES</p>
+            <ul>
+                <li><a href="#">About us</a></li>
+                <li><a href="#">FAQ</a></li>
+                <li><a href="#">Pets care</a></li>
+                <li><a href="#">Adopt</a></li>
+                <li><a href="#">Donate</a></li>
+            </ul>
+        </section>
+
+        <section class="contact">
+            <p>CONTACT</p>
+            <p><i class="fa-solid fa-phone"></i>+359 89 712 4567</p>
+            <p><i class="fa-regular fa-envelope"></i>pawfindersupport@gmail.com</p>
+            <p><i class="fa-solid fa-location-dot"></i>Tsar Asen 13 Sofia, Bulgaria</p>
+            <p><i class="fa-regular fa-clock"></i>Every day from 8:00AM to 7:00PM</p>
+        </section>
+
+    </article>
+    <footer class="footer-index">
+        <p>©PawFinder LTD. All rights reserved.</p>
+    </footer>
+</footer>
+
+<section class="footer-index-without-line">
+    <p>©PawFinder LTD. All rights reserved.</p>
+</section>
+</body>
+</html>

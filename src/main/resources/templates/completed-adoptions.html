@@ -1,0 +1,41 @@
+
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PawFinder</title>
+    <script src="https://kit.fontawesome.com/f4eab0c21e.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" type="text/css" href="/css/commons.css">
+    <link rel="stylesheet" type="text/css" href="/css/completed-adoptions.css">
+</head>
+<body>
+
+<header th:replace="~{fragments/commons::header}"></header>
+
+<article class="main-container">
+    <section class="header-approved-pets">
+        <h2>My adoptions<i class="fas fa-paw"></i></h2>
+    </section>
+    <article class="pets-approved">
+        <p th:if="${user.adoptions == null}" th:text="'You do not have adoption request. Go make one!'"></p>
+        <section class="pet-adopted" th:each="adoption : ${user.adoptions}"
+                 th:if="${adoption.requestStatus.name() == 'APPROVED'}">
+            <section class="pet-adopted pet" th:each="pet : ${adoption.pet}">
+                <section class="pet-adopted-photo">
+                    <img th:src="${pet.picture}" alt="Pet picture">
+                </section>
+                <section class="pet-adopted-info">
+                    <p class="name-pet" th:text="${pet.name}"></p>
+                    <p th:text="'Adopted by: ' + ${adoption.owner.firstName} + ' ' + ${adoption.owner.lastName}"></p>
+                    <p th:text="'Adopted on: ' + ${#temporals.format(adoption.requestedOn, 'dd MMM, yyyy HH:mm', #locale.ENGLISH)}"></p>
+                   <a class="more-info-pet" th:href="@{'/pets-for-adoption/' + ${pet.id} + '/info'}" th:text="'More info about ' + ${pet.name}"></a>
+                </section>
+            </section>
+        </section>
+    </article>
+</article>
+
+<footer class="same-background" th:replace="~{fragments/commons::footer}"></footer>
+</body>
+</html>

@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PawFinder</title>
+    <link rel="stylesheet" type="text/css" href="/css/commons.css">
+    <link rel="stylesheet" type="text/css" href="/css/pets-care.css">
+    <script src="https://kit.fontawesome.com/f4eab0c21e.js" crossorigin="anonymous"></script>
+</head>
+<body>
+
+<header th:replace="~{fragments/commons::header}"></header>
+
+<article class="container-blue">
+    <div class="header">
+        <h1>A Guide to Responsible Pet Care</h1>
+    </div>
+
+    <section class="first-article">
+        <div class="text">
+            <h3>Caring for Your Pet: A Lifelong Commitment</h3>
+            <p>Bringing a pet into your home is a big decision and a lifelong commitment. Whether you choose to adopt a
+                dog or a cat, your new companion will rely on you for love, care, and a safe environment. Pets bring
+                joy, companionship, and unconditional love, but they also require time, effort, and responsibility.
+
+                Before adopting, it's important to understand the needs of your future pet. Dogs and cats have different
+                personalities, habits, and care requirements, but both thrive when given proper nutrition, regular vet
+                check-ups, exercise, and affection.</p>
+        </div>
+        <div class="family-photo">
+            <img src="/images/63ce407e649fadd4c92890a6862541ca.jpg" alt="Family picture">
+        </div>
+    </section>
+
+    <section class="second-article">
+        <div class="text">
+            <h3>Why Adopt?</h3>
+            <p>Adopting a pet is a rewarding experience that not only changes your life but also gives an animal a
+                second chance at happiness. Many pets in shelters are looking for loving homes, and by adopting, you’re
+                helping reduce the number of stray animals and giving them the love they deserve.</p>
+        </div>
+    </section>
+
+
+    <section class="third-article">
+        <div class="text">
+            <h3>ESSENTIAL PET CARE TIPS</h3>
+            <p>Provide a Safe and Comfortable Home – Make sure your pet has a cozy place to sleep, a clean environment, and space to play and explore.</p>
+            <p>Proper Nutrition – A balanced diet is key to a pet’s health. Dogs and cats have different dietary needs, so choosing the right food is important.</p>
+            <p>Regular Veterinary Care – Routine vet visits help keep your pet healthy and prevent diseases. Vaccinations, deworming, and flea control are essential.</p>
+            <p>Exercise and Play – Pets need physical and mental stimulation. Dogs love walks and playtime, while cats enjoy climbing, chasing, and exploring.</p>
+            <p>Love and Attention – Pets are social creatures that need companionship. Spending time with them strengthens your bond and ensures their happiness.</p>
+            <p>Training and Socialization – Teaching your pet basic commands and good behavior makes life easier and helps them feel safe and secure.</p>
+        </div>
+        <div class="icon-container">
+            <i class="fas fa-home"></i>
+            <i class="fas fa-bone"></i>
+            <i class="fas fa-stethoscope"></i>
+            <i class="fa-solid fa-baseball"></i>
+        </div>
+    </section>
+    <section class="forth-article">
+        <div class="text">
+            <h3>LEARN MORE ABOUT PET CARE</h3>
+        </div>
+    </section>
+    <section>
+        <div class="image-container">
+            <a href="/cat-care"><img src="/images/2c581ff7eb9cc58fd030948b9ca4514a.jpg" alt="Cat picture"></a>
+            <a href="/dog-care"><img src="/images/17-Karlo-5ea16ddfde53b__880.jpg" alt="Dog picture"></a>
+        </div>
+    </section>
+    <section class="care-pages">
+        <a href="/cat-care">CAT CARE</a>
+        <a href="/dog-care">DOG CARE</a>
+    </section>
+</article>
+
+<footer class="same-background" th:replace="~{fragments/commons::footer}"></footer>
+</body>
+</html>

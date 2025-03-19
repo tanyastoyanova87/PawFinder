@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PawFinder</title>
+    <script src="https://kit.fontawesome.com/f4eab0c21e.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" type="text/css" href="/css/login.css">
+    <link rel="stylesheet" type="text/css" href="/css/commons.css">
+</head>
+<body>
+
+<header th:replace="~{fragments/commons::header}"></header>
+
+<article>
+        <div class="form-container"></div>
+        <form th:action="@{/login}" th:method="POST" th:object="${loginRequest}">
+
+            <h2>Log in into your account</h2>
+
+            <label for="username"></label>
+            <section class="input-icon">
+                <i class="fa-solid fa-circle-user"></i>
+                <input type="text" placeholder="Username" id="username" th:field="*{username}" required>
+            </section>
+
+            <label for="password"></label>
+            <section class="input-icon">
+                <i class="fa-solid fa-lock"></i>
+                <input type="password" placeholder="Password" id="password" th:field="*{password}" required>
+                <p class="input-error" th:if="${errorMessage}" th:text="${errorMessage}"></p>
+            </section>
+
+            <button type="submit">Log in</button>
+            <div class="login-move">
+                <p>Not a member? <a th:href="@{/register}">Register now</a>!</p>
+            </div>
+        </form>
+</article>
+
+<footer class="footer-index-without-line">
+    <p>©PawFinder LTD. All rights reserved.</p>
+</footer>
+</body>
+</html>

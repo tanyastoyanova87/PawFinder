@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PawFinder</title>
+    <link rel="stylesheet" type="text/css" href="/css/index.css">
+    <link rel="stylesheet" type="text/css" href="/css/commons.css">
+    <script src="https://kit.fontawesome.com/f4eab0c21e.js" crossorigin="anonymous"></script>
+</head>
+<body>
+
+<article class="main-page">
+    <div class="custom-shape-divider-bottom-1738113317">
+        <svg data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none">
+            <path d="M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V0H0V27.35A600.21,600.21,0,0,0,321.39,56.44Z"
+                  class="shape-fill"></path>
+        </svg>
+    </div>
+
+    <header th:replace="~{fragments/commons::header}"></header>
+
+    <main class="front-page">
+        <section class="front-page-section1">
+            <a href="#" class="front-page-header1">Paw Finder</a>
+            <h3 class="front-page-header3">A place for furry beginnings</h3>
+            <p>At Paw Finder, our mission is to find a loving home for every stray cat and dog.
+                Join us to make a difference adopting or supporting our efforts to give these animals
+                the life they deserve. Together, we can create a better world for every stray paw.</p>
+            <div th:if="${user == null}">
+                <a th:href="@{/register}" class="button-front-page register">Register</a>
+                <a th:href="@{/login}" class="button-front-page log-in">Log In</a>
+            </div>
+        </section>
+
+        <section class="front-page-section2">
+            <img class="front-page-png"
+                 src="/images/vecteezy_ai-generated-dog-and-cat-on-transparent-background_37749718.png"
+                 alt="Dog And Cat Image">
+        </section>
+    </main>
+</article>
+
+<article class="about-us">
+    <section class="about-us-text">
+        <h2 class="about-us-text">WHO ARE WE?</h2>
+        <p class="about-us-text">Welcome to PetFinder, your local animal shelter where compassion meets
+            companionship! We are a team of passionate animal advocates dedicated to finding forever homes
+            for pets in need. Our goal is to make pet adoption simple, transparent, and fulfilling.
+            Adopting a pet from us means giving a second chance to an animal in need. Join us in our mission
+            to bring joy to both pets and their new families!</p>
+        <h2 class="about-us-text">HOW TO ADOPT</h2>
+    </section>
+
+    <section class="icons-about-us">
+        <div>
+            <img src="/images/kitten.png" alt="Browsing pets icon">
+            <h4>Browse available pets</h4>
+        </div>
+
+        <div>
+            <img src="/images/check-list.png" alt="Check list icon">
+            <h4>Send an adoption request</h4>
+        </div>
+
+        <div>
+            <img src="/images/pet-shelter%20(2).png" alt="Home shelter icon">
+            <h4>Meet and adopt</h4>
+        </div>
+    </section>
+
+    <section class="button-section">
+        <a href="/pets-for-adoption" class="button-adopt">ADOPT NOW</a>
+    </section>
+</article>
+
+<footer class="same-background" th:replace="~{fragments/commons::footer}"></footer>
+<!--<div class="same-background">-->
+<!--    <article class="footer-main-page">-->
+<!--        <section class="useful-links">-->
+<!--            <p>RESOURCES</p>-->
+<!--            <ul>-->
+<!--                <li><a href="#">About us</a></li>-->
+<!--                <li><a href="#">FAQ</a></li>-->
+<!--                <li><a href="#">Pets care</a></li>-->
+<!--                <li><a href="#">Adopt</a></li>-->
+<!--                <li><a href="#">Donate</a></li>-->
+<!--            </ul>-->
+<!--        </section>-->
+
+<!--        <section class="contact">-->
+<!--            <p>CONTACT</p>-->
+<!--            <p><i class="fa-solid fa-phone"></i>+359 89 712 4567</p>-->
+<!--            <p><i class="fa-regular fa-envelope"></i>pawfindersupport@gmail.com</p>-->
+<!--            <p><i class="fa-solid fa-location-dot"></i>Tsar Asen 13 Sofia, Bulgaria</p>-->
+<!--            <p><i class="fa-regular fa-clock"></i>Every day from 8:00AM to 7:00PM</p>-->
+<!--        </section>-->
+
+<!--    </article>-->
+<!--    <footer class="footer-index">-->
+<!--        <p>©PawFinder LTD. All rights reserved.</p>-->
+<!--    </footer>-->
+<!--</div>-->
+</body>
+</html>

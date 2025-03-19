@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PawFinder</title>
+    <link rel="stylesheet" type="text/css" href="/css/commons.css">
+    <link rel="stylesheet" type="text/css" href="/css/pets-for-adoption.css">
+    <script src="https://kit.fontawesome.com/f4eab0c21e.js" crossorigin="anonymous"></script>
+</head>
+<body>
+
+<header th:replace="~{fragments/commons::header}"></header>
+
+<section class="header-available-pets">
+    <h1>Available pets for adoption</h1>
+</section>
+
+<article class="available-pets">
+    <section th:each="pet : ${pets}" class="pet">
+        <a th:href="@{'/pets-for-adoption/' + ${pet.id} + '/info'}"><img th:src="${pet.picture}" alt="Pet picture"></a>
+        <a th:href="@{'/pets-for-adoption/' + ${pet.id} + '/info'}"><p th:text="${pet.name}"></p></a>
+    </section>
+</article>
+<div class="same-background" th:replace="~{fragments/commons::footer}"></div>
+</body>
+</html>

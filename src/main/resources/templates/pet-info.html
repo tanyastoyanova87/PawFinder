@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PawFinder</title>
+    <link rel="stylesheet" type="text/css" href="/css/commons.css">
+    <link rel="stylesheet" type="text/css" href="/css/pet-info.css">
+    <script src="https://kit.fontawesome.com/f4eab0c21e.js" crossorigin="anonymous"></script>
+</head>
+<body>
+
+<header th:replace="~{fragments/commons::header}"></header>
+
+<article class="pet-info">
+    <section class="container-img">
+        <img th:src="${pet.picture}" alt="Pet picture">
+        <p th:if="${pet.isAdopted() == false}" th:text="'Do you think ' + ${pet.name} + ' is your match?'"></p>
+        <a th:if="${pet.isAdopted() == false}" th:href="@{'/pets-for-adoption/' + ${pet.id} + '/info/adoption'}">ADOPT NOW</a>
+    </section>
+    <section class="text-info">
+        <h2 th:text="${pet.name}"></h2>
+        <p class="uppercase-title">Specie</p>
+        <p th:text="${#strings.capitalize(#strings.toLowerCase(pet.specie))}"></p>
+        <p class="uppercase-title">Age group</p>
+        <p th:text="${#strings.capitalize(#strings.toLowerCase(pet.ageStatus))}"></p>
+        <p class="uppercase-title">Coat length</p>
+        <p th:text="${#strings.capitalize(#strings.toLowerCase(pet.hairLength))}"></p>
+        <p class="uppercase-title">Gender</p>
+        <p th:text="${#strings.capitalize(#strings.toLowerCase(pet.gender))}"></p>
+        <p class="uppercase-title">Vaccinated</p>
+        <p th:if="${pet.vaccinated} == true">Yes</p>
+        <p th:if="${pet.vaccinated} == false">No</p>
+        <p th:text="${pet.description}" class="description"></p>
+    </section>
+</article>
+
+<footer class="same-background" th:replace="~{fragments/commons::footer}"></footer>
+</body>
+</html>
