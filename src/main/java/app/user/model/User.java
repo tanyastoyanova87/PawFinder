@@ -61,6 +61,9 @@ public class User {
     @OneToMany(mappedBy = "owner", fetch = FetchType.EAGER)
     private List<Pet> pets = new ArrayList<>();
 
+    @ManyToMany(fetch = FetchType.EAGER)
+    private List<Pet> favouritePets = new ArrayList<>();
+
     @OneToMany(mappedBy = "owner", fetch = FetchType.EAGER)
     private List<Adoption> adoptions = new ArrayList<>();
 

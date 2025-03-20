@@ -71,3 +71,50 @@ body {
 .pet a {
     text-decoration: none;
 }
+
+.aTag {
+    font-size: 30px;
+    position: relative;
+    left: 6.5rem;
+    top: 10px;
+    padding: 0.8rem 1rem;
+    color: white;
+    background-color: #d6d5cf;
+    border-radius: 50%;
+    box-shadow: 0 1px 6px rgba(77, 71, 81, .2);
+    opacity: 0.8;
+}
+
+#aTag:hover {
+    opacity: 1;
+}
+
+.liked {
+    color: #9c5628;
+}
+
+form button {
+    border: none;
+    cursor: pointer;
+    background-color: white;
+    color: #c5c4a9;
+    position: relative;
+    left: 5rem;
+    top: 2.5rem;
+    border-radius: 50%;
+    box-shadow: 0 1px 6px rgba(77, 71, 81, .2);
+}
+
+form button:hover {
+    box-shadow: 0 1px 6px rgba(77, 71, 81, .6);
+}
+
+button i {
+    font-size: 35px;
+    padding: 1rem;
+}
+
+.name-likes {
+    display: flex;
+    justify-content: center;
+}

@@ -85,7 +85,7 @@ public class UserService implements UserDetailsService {
                 .orElseThrow(() -> new DomainException("User with this username does not exist."));
 
         return new AuthenticationMetaData(user.getId(), user.getUsername(), user.getPassword(),
-                user.getRole(), user.isActive(), user.getProfilePicture());
+                user.getRole(), user.isActive(), user.getProfilePicture(), user.getFavouritePets());
     }
 
     public List<User> getAllUsers() {
@@ -112,5 +112,21 @@ public class UserService implements UserDetailsService {
         pets.add(pet);
 
         userRepository.save(owner);
+    }
+
+    public void likePet(Pet pet, User user) {
+        List<Pet> favouritePets = user.getFavouritePets();
+        if (favouritePets.contains(pet)) {
+            favouritePets.remove(pet);
+        } else {
+            favouritePets.add(pet);
+        }
+
+        userRepository.save(user);
+    }
+
+    public boolean isPetLikedByUser(Pet pet, User user) {
+        return user.getFavouritePets().stream()
+                .anyMatch(p -> p.getId().equals(pet.getId()));
     }
 }

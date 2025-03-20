@@ -8,6 +8,7 @@ import app.user.model.User;
 import app.user.service.UserService;
 import app.web.dto.AdoptionRequest;
 import jakarta.validation.Valid;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -15,8 +16,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/pets-for-adoption")
@@ -41,6 +42,35 @@ public class PetController {
         modelAndView.addObject("pets", pets);
 
         return modelAndView;
+    }
+
+//    @PostMapping("/{id}/like")
+//    @ResponseBody
+//    public ResponseEntity<Map<String, Object>> likePet(@PathVariable UUID id, @AuthenticationPrincipal AuthenticationMetaData authenticationMetaData) {
+//        Pet pet = petService.getById(id);
+//        User user = userService.getById(authenticationMetaData.getId());
+//        userService.likePet(pet, user);
+//
+//        Map<String, Object> response = new HashMap<>();
+//        response.put("liked", user.getFavouritePets().contains(pet));
+//
+//        return ResponseEntity.ok(response);
+//    }
+
+    @GetMapping("/{id}/like")
+    public ModelAndView getFavouritePets(@PathVariable UUID id, @AuthenticationPrincipal AuthenticationMetaData authenticationMetaData) {
+        ModelAndView modelAndView = new ModelAndView();
+        List<Pet> allPets = petService.getAllPets();
+        modelAndView.addObject("allPets", allPets);
+
+        User user = userService.getById(authenticationMetaData.getId());
+        Set<UUID> likedPets = allPets.stream()
+                .filter(pet -> userService.isPetLikedByUser(pet, user))
+                .map(Pet::getId).collect(Collectors.toSet());
+        modelAndView.addObject("likedPets", likedPets);
+
+
+        return new ModelAndView("redirect:/pets-for-adoption");
     }
 
     @GetMapping("/{id}/info")
