@@ -8,7 +8,6 @@ import app.user.model.User;
 import app.user.service.UserService;
 import app.web.dto.AdoptionRequest;
 import jakarta.validation.Valid;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -95,7 +94,7 @@ public class PetController {
     }
 
     @PostMapping("/{id}/info/adoption")
-    public ModelAndView adoptionRequest(@PathVariable UUID id, @Valid @ModelAttribute AdoptionRequest adoptionRequest, BindingResult bindingResult, @AuthenticationPrincipal AuthenticationMetaData authenticationMetaData, RedirectAttributes redirectAttributes) {
+    public ModelAndView adoptionRequest(@PathVariable UUID id, @Valid @ModelAttribute AdoptionRequest adoptionRequest, BindingResult bindingResult, @AuthenticationPrincipal AuthenticationMetaData authenticationMetaData) {
         Pet pet = petService.getById(id);
 
         if (bindingResult.hasErrors()) {
