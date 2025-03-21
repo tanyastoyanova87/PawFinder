@@ -76,6 +76,7 @@ header, div .same-background {
 
 .profile-pic-name img {
     max-width: 50px;
+    border-radius: 50%;
 }
 
 .check-icons i {

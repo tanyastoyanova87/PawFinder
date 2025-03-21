@@ -7,6 +7,7 @@ import app.security.AuthenticationMetaData;
 import app.user.model.User;
 import app.user.model.UserRole;
 import app.user.repository.UserRepository;
+import app.web.dto.EditProfileRequest;
 import app.web.dto.RegisterRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -128,5 +129,14 @@ public class UserService implements UserDetailsService {
     public boolean isPetLikedByUser(Pet pet, User user) {
         return user.getFavouritePets().stream()
                 .anyMatch(p -> p.getId().equals(pet.getId()));
+    }
+
+    public void editUserProfile(User user, EditProfileRequest editProfileRequest) {
+        user.setFirstName(editProfileRequest.getFirstName());
+        user.setLastName(editProfileRequest.getLastName());
+        user.setEmail(editProfileRequest.getEmail());
+        user.setProfilePicture(editProfileRequest.getProfilePicture());
+
+        userRepository.save(user);
     }
 }

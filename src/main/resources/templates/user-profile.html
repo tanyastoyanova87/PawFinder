@@ -15,7 +15,9 @@
 <article class="main-container">
     <article class="profile-main-info">
         <section class="profile-picture">
-            <img th:src="${user.profilePicture}" alt="Profile picture">
+            <img th:src="${#strings.isEmpty(user.profilePicture) ?
+            'https://images.icon-icons.com/3298/PNG/512/ui_user_profile_avatar_person_icon_208734.png'
+            : user.profilePicture}" alt="Profile picture">
         </section>
         <section class="info">
             <section class="user-info">
@@ -24,12 +26,12 @@
                 <p><i class="fa-solid fa-globe"></i> <span
                         th:text="'Country: ' + ${T(app.util.StringFormatter).formatCountries(user.country)}"></span></p>
                 <p><i class="fa-solid fa-envelope"></i>
-                    <span th:text="${user.email} ? 'Email: ' + user.email : 'Email: Edit your profile to add email'"></span>
+                    <span th:text="${user.email != null && user.email != ''} ? 'Email: ' + ${user.email} : 'Email: Edit your profile to add email'"></span>
                 </p>
             </section>
-            <section class="edit-profile">
+            <form class="edit-profile" th:action="@{'/' + ${user.id} + '/profile/edit'}" th:method="get">
                 <button type="submit">EDIT</button>
-            </section>
+            </form>
             <section class="created-profile">
                 <p th:text="'Created profile: ' + ${#temporals.format(user.createdOn, 'dd-MM-yyyy HH:mm')}"></p>
             </section>

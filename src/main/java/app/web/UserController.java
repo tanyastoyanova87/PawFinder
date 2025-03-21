@@ -1,17 +1,20 @@
 package app.web;
 
 import app.adoption.model.Adoption;
-import app.security.AuthenticationMetaData;
 import app.user.model.User;
 import app.user.service.UserService;
+import app.web.dto.EditProfileRequest;
+import app.web.mapper.DtoMapper;
+import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import java.util.List;
 import java.util.UUID;
 
 @Controller
+@RequestMapping("/{id}/profile")
 public class UserController {
 
     private final UserService userService;
@@ -20,7 +23,7 @@ public class UserController {
         this.userService = userService;
     }
 
-    @GetMapping("/{id}/profile")
+    @GetMapping
     public ModelAndView getUserProfile(@PathVariable UUID id) {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("user-profile");
@@ -31,7 +34,37 @@ public class UserController {
         return modelAndView;
     }
 
-    @GetMapping("/{id}/profile/adoption-requests")
+
+    @GetMapping("/edit")
+    public ModelAndView getEditProfilePage(@PathVariable UUID id) {
+        User user = userService.getById(id);
+
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("edit-profile");
+        modelAndView.addObject("user", user);
+        modelAndView.addObject("editProfileRequest", DtoMapper.mapUserToEditProfileRequest(user));
+
+        return modelAndView;
+    }
+
+    @PutMapping("/edit")
+    public ModelAndView editUserProfile(@PathVariable UUID id, @Valid @ModelAttribute EditProfileRequest editProfileRequest, BindingResult bindingResult) {
+        User user = userService.getById(id);
+
+        if (bindingResult.hasErrors()) {
+            ModelAndView modelAndView = new ModelAndView();
+            modelAndView.setViewName("edit-profile");
+            modelAndView.addObject("user");
+            modelAndView.addObject("editProfileRequest", editProfileRequest);
+
+            return modelAndView;
+        }
+
+        userService.editUserProfile(user, editProfileRequest);
+        return new ModelAndView("redirect:/{id}/profile");
+    }
+
+    @GetMapping("/adoption-requests")
     public ModelAndView getUserAdoptionRequests(@PathVariable UUID id) {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("adoption-requests");
@@ -45,7 +78,7 @@ public class UserController {
         return modelAndView;
     }
 
-    @GetMapping("/{id}/profile/completed-adoptions")
+    @GetMapping("/completed-adoptions")
     public ModelAndView getUserAdoptions(@PathVariable UUID id) {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("completed-adoptions");

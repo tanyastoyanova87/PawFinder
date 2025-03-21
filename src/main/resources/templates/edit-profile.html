@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PawFinder</title>
+    <script src="https://kit.fontawesome.com/f4eab0c21e.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" type="text/css" href="/css/edit-profile.css">
+    <link rel="stylesheet" type="text/css" href="/css/commons.css">
+</head>
+<body>
+
+<header th:replace="~{fragments/commons::header}"></header>
+
+<article>
+    <div class="container">
+        <div class="form-container"></div>
+        <form th:action="@{'/' + ${user.id} + '/profile/edit'}" th:method="PUT" th:object="${editProfileRequest}">
+            <h2>Edit your account</h2>
+
+            <label for="firstName"></label>
+            <section class="input-icon">
+                <i class="fa-solid fa-user"></i>
+                <input type="text" placeholder="First name" id="firstName" th:field="*{firstName}">
+                <p class="input-error" th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}"></p>
+            </section>
+
+            <label for="lastName"></label>
+            <section class="input-icon">
+                <i class="fa-solid fa-user"></i>
+                <input type="text" placeholder="Last name" id="lastName" th:field="*{lastName}">
+                <p class="input-error" th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}"></p>
+            </section>
+
+            <label for="email"></label>
+            <section class="input-icon">
+                <i class="fa-solid fa-envelope"></i>
+                <input type="email" placeholder="Email" id="email" th:field="*{email}">
+                <p class="input-error" th:if="${#fields.hasErrors('email')}"
+                   th:errors="*{email}"></p>
+            </section>
+
+            <label for="profilePicture"></label>
+            <section class="input-icon">
+                <i class="fa-solid fa-image"></i>
+                <input type="url" placeholder="Profile picture" id="profilePicture" th:field="*{profilePicture}">
+                <p class="input-error" th:if="${#fields.hasErrors('profilePicture')}"
+                   th:errors="*{profilePicture}"></p>
+            </section>
+
+            <form class="edit-profile" th:action="@{'/' + ${user.id} + '/profile'}" th:method="get">
+                <button type="submit">SAVE</button>
+            </form>
+        </form>
+    </div>
+</article>
+
+<footer class="same-background" th:replace="~{fragments/commons::footer}"></footer>
+</body>
+</html>

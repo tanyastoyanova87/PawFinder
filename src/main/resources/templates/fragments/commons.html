@@ -29,7 +29,9 @@
                 <ul class="profile-picture-nav" th:if="${user != null}">
                     <li class="li-bar profile-pic-nav-li">
                         <a class="link-bar profile-dropdown-btn">
-                            <img th:src="${user.profilePicture}" alt="Profile picture">
+                            <img th:src="${#strings.isEmpty(user.profilePicture) ?
+                            'https://images.icon-icons.com/3298/PNG/512/ui_user_profile_avatar_person_icon_208734.png'
+                            : user.profilePicture}" alt="Profile picture">
                         </a>
                     </li>
                     <p th:text="${'Hello, ' + user.username}"></p>

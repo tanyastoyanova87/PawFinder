@@ -147,6 +147,7 @@
 .link-bar img {
     max-width: 50px;
     border-radius: 50%;
+    margin-right: 0.3rem;
 }
 
 .li-bar.profile-pic-nav-li {
