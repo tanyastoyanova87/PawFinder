@@ -28,6 +28,10 @@ public class RegisterRequest {
     @Length(min = 6, max = 10, message = "Username must be between 6 and 10 characters.")
     private String username;
 
+    @NotBlank(message = "Email cannot be empty.")
+    @Pattern(regexp = "[a-z]+@[a-z]+\\.[a-z]+", message = "Username must be between 6 and 10 characters.")
+    private String email;
+
     @NotBlank(message = "Password cannot be empty.")
     @Pattern(regexp = "^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z]).{6,10}$", message = "Password must be between 6 and 10 digits and letters, including capitalized letter.")
     private String password;

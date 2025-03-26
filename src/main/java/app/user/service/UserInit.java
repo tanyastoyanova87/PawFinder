@@ -26,6 +26,7 @@ public class UserInit implements CommandLineRunner {
                 .firstName("Test")
                 .lastName("Test")
                 .username("admin")
+                .email("admin@abv.bg")
                 .password("admin123A")
                 .confirmPassword("admin123A")
                 .country(Country.BULGARIA)

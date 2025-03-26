@@ -43,6 +43,7 @@ header, div .same-background {
 .pet-adoption-requests th {
     background-color: #f4f4f4;
     font-weight: bold;
+    text-align: center;
 }
 
 .pet-adoption-requests tr:nth-child(odd) {
@@ -56,6 +57,15 @@ header, div .same-background {
 .pet-adoption-requests td {
     white-space: nowrap;
     overflow: hidden;
+    text-overflow: ellipsis;
+    text-align: center;
+}
+
+.pet-adoption-requests .id {
+    position: relative;
+    max-width: 60px;
+    overflow: hidden;
+    white-space: nowrap;
     text-overflow: ellipsis;
 }
 

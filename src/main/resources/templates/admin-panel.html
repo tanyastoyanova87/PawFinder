@@ -13,54 +13,87 @@
 <header th:replace="~{fragments/commons::header}"></header>
 
 <article class="pet-adoption-requests">
-    <table>
+    <table th:unless="${#lists.isEmpty(pendingAdoptions)}">
         <tr>
             <th>ID</th>
-            <th>Potential adopter</th>
+            <th>Adopter</th>
             <th>Age</th>
             <th>Address</th>
             <th>City</th>
             <th>Own other pets</th>
+            <th>Own home</th>
+            <th>Own yard</th>
             <th>Pet name</th>
             <th>Pet specie</th>
             <th>Requested on</th>
             <th>Approve</th>
         </tr>
-        <section th:each="user : ${allUsers}">
-            <tr th:each="adoption : ${user.adoptions}" th:if="${adoption.requestStatus.name() == 'PENDING'}">
-                <td th:text="${adoption.id}"></td>
-                <td class="profile-pic-name">
-                    <img th:src="${adoption.owner.profilePicture}" alt="Profile Picture" class="profile-pic">
-                    <section class="profile-pic-name text">
-                        <span th:text="${adoption.fullName}"></span>
-                        <span th:text="${user.email} ? 'Email: ' + user.email : 'No email'"></span>
-                    </section>
-                </td>
-                <td th:text="${adoption.age}"></td>
-                <td th:text="${adoption.address}"></td>
-                <td th:text="${adoption.city}"></td>
-                <td th:text="${adoption.ownOtherPets}"></td>
-                <!--   /TODO:       <td th:text="${adoption.ownHome}"></td>-->
-                <!--                <td th:text="${adoption.ownYard}"></td>-->
-                <td th:text="${adoption.pet.name}"></td>
-                <td th:text="${adoption.pet.specie.name()}"></td>
-                <td th:text="${#temporals.format(adoption.requestedOn, 'dd-MM-yyyy HH:mm')}"></td>
-                <td class="check-icons">
-                    <form th:action="@{'/admin-panel/' + ${adoption.id} + '/approve'}" method="post">
-                        <input type="hidden" name="_method" value="PUT">
-                        <button type="submit" class="approve">
-                            <i class="fa-solid fa-check green"></i>
-                        </button>
-                    </form>
-                    <form th:action="@{'/admin-panel/' + ${adoption.id} + '/reject'}" method="post">
-                        <input type="hidden" name="_method" value="PUT">
-                        <button type="submit" class="reject">
-                            <i class="fa-solid fa-xmark red"></i>
-                        </button>
-                    </form>
-                </td>
-            </tr>
-        </section>
+        <tr th:each="adoption : ${pendingAdoptions}">
+            <td class="id" th:text="${adoption.id}"></td>
+            <td class="profile-pic-name">
+                <img th:src="${#strings.isEmpty(adoption.owner.profilePicture) ?
+                            'https://images.icon-icons.com/3298/PNG/512/ui_user_profile_avatar_person_icon_208734.png'
+                            : adoption.owner.profilePicture}" alt="Profile picture">
+                <section class="profile-pic-name text">
+                    <span th:text="${adoption.fullName}"></span>
+                    <span th:text="${adoption.owner.email} ? 'Email: ' + ${adoption.owner.email} : 'No email'"></span>
+                </section>
+            </td>
+            <td th:text="${adoption.age}"></td>
+            <td th:text="${adoption.address}"></td>
+            <td th:text="${adoption.city}"></td>
+            <td th:text="${adoption.ownOtherPets}"></td>
+            <td th:text="${adoption.ownHome}"></td>
+            <td th:text="${adoption.ownYard}"></td>
+            <td th:text="${adoption.pet.name}"></td>
+            <td th:text="${#strings.toLowerCase(adoption.pet.specie.name())}"></td>
+            <td th:text="${#temporals.format(adoption.requestedOn, 'dd-MM-yyyy HH:mm')}"></td>
+            <td class="check-icons">
+                <form th:action="@{'/admin-panel/' + ${adoption.id} + '/approve'}" method="post">
+                    <input type="hidden" name="_method" value="PUT">
+                    <button type="submit" class="approve">
+                        <i class="fa-solid fa-check green"></i>
+                    </button>
+                </form>
+                <form th:action="@{'/admin-panel/' + ${adoption.id} + '/reject'}" method="post">
+                    <input type="hidden" name="_method" value="PUT">
+                    <button type="submit" class="reject">
+                        <i class="fa-solid fa-xmark red"></i>
+                    </button>
+                </form>
+            </td>
+        </tr>
+    </table>
+
+    <table th:if="${#lists.isEmpty(pendingAdoptions)}">
+        <tr>
+            <th>ID</th>
+            <th>Adopter</th>
+            <th>Age</th>
+            <th>Address</th>
+            <th>City</th>
+            <th>Own other pets</th>
+            <th>Own home</th>
+            <th>Own yard</th>
+            <th>Pet name</th>
+            <th>Pet specie</th>
+            <th>Requested on</th>
+            <th>Approve</th>
+        </tr>
+        <tr>
+            <td>-</td>
+            <td>-</td>
+            <td>-</td>
+            <td>-</td>
+            <td>-</td>
+            <td>-</td>
+            <td>-</td>
+            <td>-</td>
+            <td>-</td>
+            <td>-</td>
+            <td>-</td>
+            <td>-</td>
+        </tr>
     </table>
 </article>
 

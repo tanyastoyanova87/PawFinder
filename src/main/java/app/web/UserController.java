@@ -71,9 +71,10 @@ public class UserController {
 
         User user = this.userService.getById(id);
         List<Adoption> adoptions = userService.sortAdoptionRequests(user);
+        List<Adoption> requests = adoptions.stream().filter(adoption -> adoption.getRequestStatus().name().equals("PENDING") || adoption.getRequestStatus().name().equals("REJECTED")).toList();
 
         modelAndView.addObject("user", user);
-        modelAndView.addObject("adoptions", adoptions);
+        modelAndView.addObject("requests", requests);
 
         return modelAndView;
     }
@@ -85,9 +86,9 @@ public class UserController {
 
         User user = this.userService.getById(id);
         List<Adoption> adoptions = userService.sortAdoptionRequests(user);
-
+        List<Adoption> approvedAdoptions = adoptions.stream().filter(adoption -> adoption.getRequestStatus().name().equals("APPROVED")).toList();
         modelAndView.addObject("user", user);
-        modelAndView.addObject("adoptions", adoptions);
+        modelAndView.addObject("approvedAdoptions", approvedAdoptions);
 
         return modelAndView;
     }

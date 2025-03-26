@@ -17,10 +17,8 @@
         <section class="header-pending-pets">
             <h2>My adoption requests <i class="fas fa-paw"></i></h2>
         </section>
-    <article class="pets-pending">
-        <p th:if="${user.adoptions == null}" th:text="'You do not have adoption request. Go make one!'"></p>
-        <section class="pet-requested" th:each="adoption : ${user.adoptions}"
-                 th:if="${adoption.requestStatus.name() == 'PENDING' or adoption.requestStatus.name() == 'REJECTED'}">
+    <article class="pets-pending" th:unless="${#lists.isEmpty(requests)}">
+        <section class="pet-requested" th:each="adoption : ${requests}">
             <section class="pet-requested pet" th:each="pet : ${adoption.pet}">
                 <section class="pet-requested-photo">
                     <img th:src="${pet.picture}" alt="Pet picture">
@@ -34,6 +32,12 @@
                     <a class="more-info-pet" th:href="@{'/pets-for-adoption/' + ${pet.id} + '/info'}" th:text="'More info about ' + ${pet.name}"></a>
                 </section>
             </section>
+        </section>
+    </article>
+
+    <article class="none-adoptions">
+        <section th:if="${#lists.isEmpty(requests)}">
+            <p>You do not have adoption requests</p>
         </section>
     </article>
 </article>

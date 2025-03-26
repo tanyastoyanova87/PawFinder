@@ -3,11 +3,6 @@ package app.web;
 import app.adoption.model.Adoption;
 import app.adoption.service.AdoptionService;
 import app.pet.model.Pet;
-import app.pet.service.PetService;
-import app.security.AuthenticationMetaData;
-import app.user.model.User;
-import app.user.service.UserService;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -20,23 +15,20 @@ import java.util.UUID;
 @Controller
 public class AdoptionController {
 
-    private final UserService userService;
     private final AdoptionService adoptionService;
 
-    public AdoptionController(UserService userService, AdoptionService adoptionService) {
-        this.userService = userService;
+    public AdoptionController(AdoptionService adoptionService) {
         this.adoptionService = adoptionService;
     }
 
     @GetMapping("/admin-panel")
-    public ModelAndView getAdminPanel(@AuthenticationPrincipal AuthenticationMetaData authenticationMetaData) {
+    public ModelAndView getAdminPanel() {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("admin-panel");
 
-        User user = userService.getById(authenticationMetaData.getId());
-        List<User> allUsers = userService.getAllUsers();
-        modelAndView.addObject("user", user);
-        modelAndView.addObject("allUsers", allUsers);
+        List<Adoption> allAdoptions = adoptionService.getAllAdoptions();
+        List<Adoption> pendingAdoptions = allAdoptions.stream().filter(adoption -> adoption.getRequestStatus().name().equals("PENDING")).toList();
+        modelAndView.addObject("pendingAdoptions", pendingAdoptions);
 
         return modelAndView;
     }

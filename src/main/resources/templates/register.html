@@ -42,6 +42,13 @@
                 <p class="input-error" th:if="${#fields.hasErrors('username')}" th:errors="*{username}"></p>
             </section>
 
+            <label for="email"></label>
+            <section class="input-icon">
+                <i class="fa-solid fa-envelope"></i>
+                <input type="email" placeholder="Email" id="email" th:field="*{email}" required>
+                <p class="input-error" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></p>
+            </section>
+
             <label for="password"></label>
             <section class="input-icon">
                 <i class="fa-solid fa-lock"></i>

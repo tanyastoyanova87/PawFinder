@@ -6,8 +6,6 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.UUID;
 
 @Builder
@@ -29,6 +27,12 @@ public class Adoption {
 
     @Column(nullable = false)
     private boolean ownOtherPets;
+
+    @Column(nullable = false)
+    private boolean ownHome;
+
+    @Column(nullable = false)
+    private boolean ownYard;
 
     @Column(nullable = false)
     private String address;

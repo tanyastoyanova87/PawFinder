@@ -26,7 +26,7 @@
                 <p><i class="fa-solid fa-globe"></i> <span
                         th:text="'Country: ' + ${T(app.util.StringFormatter).formatCountries(user.country)}"></span></p>
                 <p><i class="fa-solid fa-envelope"></i>
-                    <span th:text="${user.email != null && user.email != ''} ? 'Email: ' + ${user.email} : 'Email: Edit your profile to add email'"></span>
+                    <span th:text="${'Email: ' + user.email}"></span>
                 </p>
             </section>
             <form class="edit-profile" th:action="@{'/' + ${user.id} + '/profile/edit'}" th:method="get">
