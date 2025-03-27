@@ -1,20 +1,26 @@
 package app.web;
 
 import app.adoption.model.Adoption;
+import app.email.client.dto.Email;
 import app.user.model.User;
 import app.user.service.UserService;
 import app.web.dto.EditProfileRequest;
 import app.web.mapper.DtoMapper;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
-import java.util.List;
-import java.util.UUID;
+
+import java.util.*;
 
 @Controller
-@RequestMapping("/{id}/profile")
+@RequestMapping("/users")
 public class UserController {
 
     private final UserService userService;
@@ -24,6 +30,35 @@ public class UserController {
     }
 
     @GetMapping
+    public ModelAndView getUsersPage() {
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("users");
+
+        List<User> allUsers = userService.getAllUsers();
+        modelAndView.addObject("allUsers", allUsers);
+
+        for (User user : allUsers) {
+            List<Email> succeededEmails = userService.getEmailsByUser(user.getId(), "SUCCEEDED");
+            List<Email> failedEmails = userService.getEmailsByUser(user.getId(), "FAILED");
+
+            user.setSuccessfulEmails(succeededEmails.size());
+            user.setFailedEmails(failedEmails.size());
+
+            userService.setUserEmails(succeededEmails, failedEmails, user);
+        }
+
+        return modelAndView;
+    }
+
+    @PutMapping("/{id}/role")
+    public String changeUserRole(@PathVariable UUID id) {
+        User user = userService.getById(id);
+        userService.changeRoleByAdmin(user);
+
+        return "redirect:/users";
+    }
+
+    @GetMapping("/{id}/profile")
     public ModelAndView getUserProfile(@PathVariable UUID id) {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("user-profile");
@@ -35,7 +70,7 @@ public class UserController {
     }
 
 
-    @GetMapping("/edit")
+    @GetMapping("/{id}/profile/edit")
     public ModelAndView getEditProfilePage(@PathVariable UUID id) {
         User user = userService.getById(id);
 
@@ -47,7 +82,7 @@ public class UserController {
         return modelAndView;
     }
 
-    @PutMapping("/edit")
+    @PutMapping("/{id}/profile/edit")
     public ModelAndView editUserProfile(@PathVariable UUID id, @Valid @ModelAttribute EditProfileRequest editProfileRequest, BindingResult bindingResult) {
         User user = userService.getById(id);
 
@@ -64,7 +99,7 @@ public class UserController {
         return new ModelAndView("redirect:/{id}/profile");
     }
 
-    @GetMapping("/adoption-requests")
+    @GetMapping("/{id}/profile/adoption-requests")
     public ModelAndView getUserAdoptionRequests(@PathVariable UUID id) {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("adoption-requests");
@@ -79,7 +114,7 @@ public class UserController {
         return modelAndView;
     }
 
-    @GetMapping("/completed-adoptions")
+    @GetMapping("/{id}/profile/completed-adoptions")
     public ModelAndView getUserAdoptions(@PathVariable UUID id) {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("completed-adoptions");
@@ -91,6 +126,19 @@ public class UserController {
         modelAndView.addObject("approvedAdoptions", approvedAdoptions);
 
         return modelAndView;
+    }
+
+    @PutMapping("/{id}/profile/delete")
+    public String changeUserStatus(@PathVariable UUID id, HttpServletRequest request, HttpServletResponse response) {
+        User user = this.userService.getById(id);
+
+        userService.changeStatus(user);
+
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication != null) {
+            new SecurityContextLogoutHandler().logout(request, response, authentication);
+        }
+        return "redirect:/";
     }
 
 

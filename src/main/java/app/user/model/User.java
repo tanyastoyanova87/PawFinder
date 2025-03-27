@@ -58,6 +58,10 @@ public class User {
 
     private String profilePicture;
 
+    private long successfulEmails;
+
+    private long failedEmails;
+
     @OneToMany(mappedBy = "owner", fetch = FetchType.EAGER)
     private List<Pet> pets = new ArrayList<>();
 

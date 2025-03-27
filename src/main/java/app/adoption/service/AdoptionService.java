@@ -59,6 +59,8 @@ public class AdoptionService {
                 .fullName(adoptionRequest.getFullName())
                 .age(adoptionRequest.getAge())
                 .ownOtherPets(adoptionRequest.isOwnOtherPets())
+                .ownHome(adoptionRequest.isOwnHome())
+                .ownYard(adoptionRequest.isOwnYard())
                 .address(adoptionRequest.getAddress())
                 .city(adoptionRequest.getCity())
                 .requestedOn(LocalDateTime.now())
@@ -81,7 +83,7 @@ public class AdoptionService {
         petService.setOwnerOfPet(adoption);
 
         String subjectEmail = "Approved adoption";
-        String bodyEmail = "Congratulations, %s! Your adoption request for %s %s was approved and you are officially the owner of this pet. Contact us on +359 89 712 4567 for scheduling a meeting with your new pet! Best regards!".formatted(adoption.getOwner().getFirstName(), adoption.getPet().getSpecie().name().toLowerCase(), adoption.getPet().getName());
+        String bodyEmail = "Congratulations, %s!%nYour adoption request for %s %s was approved and you are officially the owner of this pet.%nContact us on +359 89 712 4567 for scheduling a meeting with your new pet!%nBest regards!%nThe PawFinder Team".formatted(adoption.getOwner().getFirstName(), adoption.getPet().getSpecie().name().toLowerCase(), adoption.getPet().getName());
         String email = adoption.getOwner().getEmail();
         String sender = "pawfinder2025@gmail.com";
         emailService.sendEmail(adoption.getOwner().getId(), subjectEmail, bodyEmail, email, sender);
@@ -93,7 +95,7 @@ public class AdoptionService {
         adoption.setRequestStatus(RequestStatus.REJECTED);
 
         String subjectEmail = "Rejected adoption";
-        String bodyEmail = "Hello, %s! We are sorry to tell you that your adoption request for %s %s was rejected due to not meeting our adoption standards. Best regards!".formatted(adoption.getOwner().getFirstName(), adoption.getPet().getSpecie().name().toLowerCase(), adoption.getPet().getName());
+        String bodyEmail = "Hello, %s!%nWe are sorry to tell you that your adoption request for %s %s was rejected due to not meeting our adoption standards.%nBest regards!%nThe PawFinder Team".formatted(adoption.getOwner().getFirstName(), adoption.getPet().getSpecie().name().toLowerCase(), adoption.getPet().getName());
         String email = adoption.getOwner().getEmail();
         String sender = "pawfinder2025@gmail.com";
         emailService.sendEmail(adoption.getOwner().getId(), subjectEmail, bodyEmail, email, sender);

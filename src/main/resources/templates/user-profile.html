@@ -29,12 +29,15 @@
                     <span th:text="${'Email: ' + user.email}"></span>
                 </p>
             </section>
-            <form class="edit-profile" th:action="@{'/' + ${user.id} + '/profile/edit'}" th:method="get">
+            <form class="edit-profile" th:action="@{'/users/' + ${user.id} + '/profile/edit'}" th:method="get">
                 <button type="submit">EDIT</button>
             </form>
             <section class="created-profile">
                 <p th:text="'Created profile: ' + ${#temporals.format(user.createdOn, 'dd-MM-yyyy HH:mm')}"></p>
             </section>
+            <form class="delete-profile" th:action="@{'/users/' + ${user.id} + '/profile/delete'}" th:method="PUT">
+                <button type="submit">Delete your account</button>
+            </form>
         </section>
     </article>
 </article>

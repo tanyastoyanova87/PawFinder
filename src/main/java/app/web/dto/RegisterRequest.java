@@ -2,6 +2,7 @@ package app.web.dto;
 
 import app.user.model.Country;
 import app.validation.PasswordMatcher;
+import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
@@ -29,7 +30,7 @@ public class RegisterRequest {
     private String username;
 
     @NotBlank(message = "Email cannot be empty.")
-    @Pattern(regexp = "[a-z]+@[a-z]+\\.[a-z]+", message = "Username must be between 6 and 10 characters.")
+    @Email(message = "Email must be in valid format.")
     private String email;
 
     @NotBlank(message = "Password cannot be empty.")

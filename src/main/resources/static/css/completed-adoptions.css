@@ -64,6 +64,7 @@ header, footer .same-background {
 .header-approved-pets h2 i {
     color: #9c5628;
     margin-right: 0.5rem;
+    margin-left: 0.5rem;
 }
 
 @keyframes fadeIn {

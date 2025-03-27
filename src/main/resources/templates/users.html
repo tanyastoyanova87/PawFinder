@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PawFinder</title>
+    <script src="https://kit.fontawesome.com/f4eab0c21e.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" type="text/css" href="/css/commons.css">
+    <link rel="stylesheet" type="text/css" href="/css/users.css">
+</head>
+<body>
+
+<header th:replace="~{fragments/commons::header}"></header>
+
+<article class="pet-adoption-requests">
+    <table th:unless="${#lists.isEmpty(allUsers)}">
+        <tr>
+            <th>Id</th>
+            <th>Username</th>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Country</th>
+            <th>Created on</th>
+            <th>Status</th>
+            <th>Change role</th>
+            <th>Notifications sent</th>
+            <th>Notifications failed</th>
+        </tr>
+        <tr th:each="user : ${allUsers}">
+            <td class="id" th:text="${user.id}"></td>
+            <td class="id" th:text="${user.username}"></td>
+            <td th:text="${user.firstName} + ' ' + ${user.lastName}"></td>
+            <td th:text="${user.email}"></td>
+            <td th:text="${#strings.capitalize(#strings.toLowerCase(user.country))}"></td>
+            <td th:text="${#temporals.format(user.createdOn, 'dd-MM-yyyy HH:mm')}"></td>
+            <td th:if="${user.active == true}" th:text="'active'"></td>
+            <td th:if="${user.active == false}" th:text="'inactive'"></td>
+            <td>
+                <form th:action="@{'/users/' + ${user.id} + '/role'}" th:method="PUT">
+                    <button th:text="${#strings.capitalize(#strings.toLowerCase(user.role))}"></button>
+                    <p class="button-text">Click to change role</p>
+                </form>
+            </td>
+            <td th:text="${user.successfulEmails}"></td>
+            <td th:text="${user.failedEmails}"></td>
+            <!--            <td class="check-icons">-->
+            <!--                <form th:action="@{'/admin-panel/' + ${adoption.id} + '/approve'}" method="post">-->
+            <!--                    <input type="hidden" name="_method" value="PUT">-->
+            <!--                    <button type="submit" class="approve">-->
+            <!--                        <i class="fa-solid fa-check green"></i>-->
+            <!--                    </button>-->
+            <!--                </form>-->
+            <!--                <form th:action="@{'/admin-panel/' + ${adoption.id} + '/reject'}" method="post">-->
+            <!--                    <input type="hidden" name="_method" value="PUT">-->
+            <!--                    <button type="submit" class="reject">-->
+            <!--                        <i class="fa-solid fa-xmark red"></i>-->
+            <!--                    </button>-->
+            <!--                </form>-->
+            <!--            </td>-->
+        </tr>
+    </table>
+
+    <table th:if="${#lists.isEmpty(allUsers)}">
+        <tr>
+            <th>Id</th>
+            <th>Username</th>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Country</th>
+            <th>Created on</th>
+            <th>Status</th>
+            <th>Change role</th>
+            <th>Notifications sent</th>
+            <th>Notifications failed</th>
+        </tr>
+        <tr>
+            <td>-</td>
+            <td>-</td>
+            <td>-</td>
+            <td>-</td>
+            <td>-</td>
+            <td>-</td>
+            <td>-</td>
+            <td>-</td>
+            <td>-</td>
+            <td>-</td>
+        </tr>
+    </table>
+</article>
+
+<footer class="same-background" th:replace="~{fragments/commons::footer}"></footer>
+</body>
+</html>

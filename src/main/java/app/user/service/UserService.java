@@ -1,6 +1,8 @@
 package app.user.service;
 
 import app.adoption.model.Adoption;
+import app.email.client.dto.Email;
+import app.email.service.EmailService;
 import app.exception.DomainException;
 import app.pet.model.Pet;
 import app.security.AuthenticationMetaData;
@@ -26,38 +28,32 @@ public class UserService implements UserDetailsService {
 
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
+    private final EmailService emailService;
 
     @Autowired
-    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder) {
+    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder, EmailService emailService) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
+        this.emailService = emailService;
     }
-
-//    private User login(LoginRequest loginRequest) {
-//        Optional<User> userOptional = this.userRepository.findByUsername(loginRequest.getUsername());
-//        if (userOptional.isEmpty()) {
-//            throw new DomainException("Incorrect username or password.");
-//        }
-//
-//        User user = userOptional.get();
-//        if (!passwordEncoder.matches(loginRequest.getPassword(), user.getPassword())) {
-//            throw new DomainException("Incorrect username or password.");
-//        }
-//
-//        log.info("User [%s] logged in.".formatted(user.getUsername()));
-//        return user;
-//    }
 
     public void register(RegisterRequest registerRequest) {
         Optional<User> userOptional = this.userRepository.findByUsername(registerRequest.getUsername());
+
         if (userOptional.isPresent()) {
             throw new DomainException("Username [%s] already exist.".formatted(registerRequest.getUsername()));
         }
 
         User user = initializaUser(registerRequest);
-
         this.userRepository.save(user);
+
         log.info("Successfully created user with username [%s].".formatted(user.getUsername()));
+
+        String subjectEmail = "Successful registration";
+        String bodyEmail = "Welcome to PawFinder, %s!%nWe're excited to have you as part of our community. If you have any questions, feel free to reach out to us at pawfinder2025@gmail.com or call us +359 89 712 4567.%n%nBest regards!%nThe PawFinder Team".formatted(user.getFirstName());
+        String email = user.getEmail();
+        String sender = "pawfinder2025@gmail.com";
+        emailService.sendEmail(user.getId(), subjectEmail, bodyEmail, email, sender);
     }
 
     public User initializaUser(RegisterRequest registerRequest) {
@@ -74,6 +70,8 @@ public class UserService implements UserDetailsService {
                 .country(registerRequest.getCountry())
                 .createdOn(LocalDateTime.now())
                 .updatedOn(LocalDateTime.now())
+                .successfulEmails(0)
+                .failedEmails(0)
                 .build();
     }
 
@@ -137,6 +135,40 @@ public class UserService implements UserDetailsService {
         user.setLastName(editProfileRequest.getLastName());
         user.setEmail(editProfileRequest.getEmail());
         user.setProfilePicture(editProfileRequest.getProfilePicture());
+
+        userRepository.save(user);
+    }
+
+    public List<Email> getEmailsByUser(UUID userId, String status) {
+        List<Email> allEmails = emailService.getAllEmails(userId);
+
+        return allEmails.stream()
+                .filter(email -> email.getStatus()
+                        .equals(status) && email.getUserId().equals(userId))
+                .toList();
+    }
+
+    public void changeRoleByAdmin(User user) {
+        if (user.getRole().name().equals("USER")) {
+            user.setRole(UserRole.ADMIN);
+        } else {
+            user.setRole(UserRole.USER);
+        }
+
+        userRepository.save(user);
+    }
+
+    public void setUserEmails(List<Email> succeededEmails, List<Email> failedEmails, User user) {
+        user.setSuccessfulEmails(succeededEmails.size());
+        user.setFailedEmails(failedEmails.size());
+
+        userRepository.save(user);
+    }
+
+    public void changeStatus(User user) {
+        if (user.isActive()) {
+            user.setActive(false);
+        }
 
         userRepository.save(user);
     }

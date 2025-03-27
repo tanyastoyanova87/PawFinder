@@ -104,3 +104,16 @@ button:hover {
     text-align: center;
     width: fit-content;
 }
+
+.delete-profile {
+    text-align: center;
+}
+
+.delete-profile button {
+    font-size: 12px;
+    color: #780b0b;
+    font-weight: bold;
+    border: none;
+    background-color: white;
+    box-shadow: none;
+}

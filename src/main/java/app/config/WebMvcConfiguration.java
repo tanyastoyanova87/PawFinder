@@ -18,6 +18,8 @@ public class WebMvcConfiguration implements WebMvcConfigurer {
                         .requestMatchers("/", "/register", "/pets-care", "/cat-care", "/dog-care",
                                 "/pets-for-adoption", "/pets-for-adoption/{id}/info").permitAll()
                         .requestMatchers("/admin-panel").hasRole("ADMIN")
+                        .requestMatchers("/users").hasRole("ADMIN")
+                        .requestMatchers("/users/{id}/role").hasRole("ADMIN")
                         .anyRequest().authenticated()
                 )
 

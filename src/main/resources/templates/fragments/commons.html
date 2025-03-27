@@ -23,8 +23,15 @@
                 </ul>
             </a></li>
             <li class="li-bar"><a class="link-bar" href="#">CONTACT US</a></li>
-            <li th:if="${user != null} and ${user.role.name() == 'ADMIN'}" class="li-bar"><a class="link-bar" th:href="@{/admin-panel}">ADMIN PANEL</a></li>
-<!--            <li th:if="${user != null}" class="li-bar"><a class="link-bar" th:href="@{/logout}">LOGOUT</a></li>-->
+            <li th:if="${user != null} and ${user.role.name() == 'ADMIN'}" class="li-bar"><p class="link-bar">ADMIN
+                PANEL
+                <ul class="submenu-admin">
+                    <li><a class="submenu-a" th:href="@{/admin-panel}">REQUESTS</a>
+                    </li>
+                    <li><a class="submenu-a" th:href="@{/users}">USERS</a>
+                    </li>
+                </ul>
+            </li>
             <div class="profile-dropdown">
                 <ul class="profile-picture-nav" th:if="${user != null}">
                     <li class="li-bar profile-pic-nav-li">
@@ -38,11 +45,14 @@
                 </ul>
 
                 <ul class="profile-dropdown-content" th:if="${user != null}">
-                    <li class="li-bar"><a class="link-bar" th:href="@{'/' + ${user.id} + '/profile'}">Profile</a></li>
-                    <li class="li-bar"><a class="link-bar" th:href="@{'/' + ${user.id} + '/profile/adoption-requests'}">My
+                    <li class="li-bar"><a class="link-bar" th:href="@{'/users/' + ${user.id} + '/profile'}">Profile</a>
+                    </li>
+                    <li class="li-bar"><a class="link-bar"
+                                          th:href="@{'/users/' + ${user.id} + '/profile/adoption-requests'}">My
                         requests</a></li>
                     <li class="li-bar"><a class="link-bar"
-                                          th:href="@{'/' + ${user.id} + '/profile/completed-adoptions'}">My Adoptions</a></li>
+                                          th:href="@{'/users/' + ${user.id} + '/profile/completed-adoptions'}">My
+                        Adoptions</a></li>
                     <li class="li-bar"><a class="link-bar"
                                           th:href="@{/logout}">Logout</a></li>
                 </ul>
