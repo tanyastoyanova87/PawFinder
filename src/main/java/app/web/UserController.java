@@ -3,6 +3,8 @@ package app.web;
 import app.adoption.model.Adoption;
 import app.creditCard.model.CreditCard;
 import app.email.client.dto.Email;
+import app.transaction.model.Transaction;
+import app.transaction.service.TransactionService;
 import app.user.model.User;
 import app.user.service.UserService;
 import app.web.dto.EditProfileRequest;
@@ -25,9 +27,11 @@ import java.util.*;
 public class UserController {
 
     private final UserService userService;
+    private final TransactionService transactionService;
 
-    public UserController(UserService userService) {
+    public UserController(UserService userService, TransactionService transactionService) {
         this.userService = userService;
+        this.transactionService = transactionService;
     }
 
     @GetMapping
@@ -103,7 +107,7 @@ public class UserController {
     @GetMapping("/{id}/profile/adoption-requests")
     public ModelAndView getUserAdoptionRequests(@PathVariable UUID id) {
         ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName("adoption-requests");
+        modelAndView.setViewName("user-adoption-requests");
 
         User user = this.userService.getById(id);
         List<Adoption> adoptions = userService.sortAdoptionRequests(user);
@@ -118,7 +122,7 @@ public class UserController {
     @GetMapping("/{id}/profile/completed-adoptions")
     public ModelAndView getUserAdoptions(@PathVariable UUID id) {
         ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName("completed-adoptions");
+        modelAndView.setViewName("user-completed-adoptions");
 
         User user = this.userService.getById(id);
         List<Adoption> adoptions = userService.sortAdoptionRequests(user);
@@ -139,6 +143,16 @@ public class UserController {
         modelAndView.addObject("user", user);
         modelAndView.addObject("creditCard", creditCard);
 
+        return modelAndView;
+    }
+
+    @GetMapping("/{id}/profile/transactions")
+    public ModelAndView getTransactionsPage(@PathVariable UUID id) {
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("user-transactions");
+
+        List<Transaction> transactions = transactionService.findAllTransactionsByUserId(id);
+        modelAndView.addObject("transactions", transactions);
         return modelAndView;
     }
 

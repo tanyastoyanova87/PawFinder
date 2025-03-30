@@ -21,10 +21,10 @@ public class AdoptionController {
         this.adoptionService = adoptionService;
     }
 
-    @GetMapping("/admin-panel")
+    @GetMapping("/requests")
     public ModelAndView getAdminPanel() {
         ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName("admin-panel");
+        modelAndView.setViewName("requests");
 
         List<Adoption> allAdoptions = adoptionService.getAllAdoptions();
         List<Adoption> pendingAdoptions = allAdoptions.stream().filter(adoption -> adoption.getRequestStatus().name().equals("PENDING")).toList();
@@ -33,7 +33,7 @@ public class AdoptionController {
         return modelAndView;
     }
 
-    @PutMapping("/admin-panel/{id}/approve")
+    @PutMapping("/requests/{id}/approve")
     public String approveAdoption(@PathVariable UUID id) {
         Adoption adoption = adoptionService.getById(id);
         Pet pet = adoption.getPet();
@@ -42,7 +42,7 @@ public class AdoptionController {
         return "redirect:/admin-panel";
     }
 
-    @PutMapping("/admin-panel/{id}/reject")
+    @PutMapping("/requests/{id}/reject")
     public String rejectAdoption(@PathVariable UUID id) {
         Adoption adoption = adoptionService.getById(id);
         adoptionService.rejectRequestStatus(adoption);

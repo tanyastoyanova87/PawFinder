@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PawFinder</title>
+    <script src="https://kit.fontawesome.com/f4eab0c21e.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" type="text/css" href="/css/commons.css">
+    <link rel="stylesheet" type="text/css" href="/css/donations.css">
+</head>
+<body>
+
+<header th:replace="~{fragments/commons::header}"></header>
+
+<article class="donations">
+    <table th:unless="${#lists.isEmpty(donations)}">
+        <tr>
+            <th>Id</th>
+            <th>Sender</th>
+            <th>Amount</th>
+            <th>Payment type</th>
+            <th>Date</th>
+        </tr>
+        <tr th:each="donation : ${donations}">
+            <td class="id" th:text="${donation.id}"></td>
+            <td class="id" th:text="${donation.owner.username}"></td>
+            <td th:text="${'€' + donation.amount}"></td>
+            <td th:text="${'Credit card'}"></td>
+            <td th:text="${#temporals.format(donation.createdOn, 'dd-MM-yyyy HH:mm')}"></td>
+        </tr>
+    </table>
+
+    <table th:if="${#lists.isEmpty(donations)}">
+        <tr>
+            <th>Id</th>
+            <th>Sender</th>
+            <th>Amount</th>
+            <th>Payment type</th>
+            <th>Date</th>
+        </tr>
+        <tr>
+            <td>-</td>
+            <td>-</td>
+            <td>-</td>
+            <td>-</td>
+            <td>-</td>
+        </tr>
+    </table>
+</article>
+
+<footer class="same-background" th:replace="~{fragments/commons::footer}"></footer>
+</body>
+</html>

@@ -1,4 +1,6 @@
 package app.web;
+
+import app.donation.model.Donation;
 import app.donation.service.DonationService;
 import app.security.AuthenticationMetaData;
 import app.user.model.User;
@@ -11,10 +13,11 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.util.List;
 import java.util.UUID;
 
 @Controller
-@RequestMapping("/donation")
+@RequestMapping("/donations")
 public class DonationController {
 
     private final DonationService donationService;
@@ -26,9 +29,19 @@ public class DonationController {
     }
 
     @GetMapping
+    public ModelAndView getDonationsPage() {
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("donations");
+
+        List<Donation> donations = donationService.findAll();
+        modelAndView.addObject("donations", donations);
+        return modelAndView;
+    }
+
+    @GetMapping("/donation")
     public ModelAndView getDonationPage() {
         ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName("donation-page");
+        modelAndView.setViewName("donation");
 
         modelAndView.addObject("donationRequest", DonationRequest.builder().build());
         return modelAndView;
@@ -37,10 +50,10 @@ public class DonationController {
     @GetMapping("/ready-amount")
     public ModelAndView getReadyAmount(DonationRequest donationRequest, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
-            return new ModelAndView("donation-page");
+            return new ModelAndView("donation");
         }
         ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName("donation-page");
+        modelAndView.setViewName("donation");
         modelAndView.addObject("donationRequest", donationRequest);
 
         return modelAndView;
@@ -49,10 +62,10 @@ public class DonationController {
     @PostMapping("/ready-amount")
     public ModelAndView setAmountToInput(@RequestParam(name = "amount") String amount, DonationRequest donationRequest, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
-            return new ModelAndView("donation-page");
+            return new ModelAndView("donation");
         }
         ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName("donation-page");
+        modelAndView.setViewName("donation");
         modelAndView.addObject("amount", amount);
         modelAndView.addObject("donationRequest", donationRequest);
 
@@ -62,7 +75,7 @@ public class DonationController {
     @PostMapping("/amount")
     public String getDonationAmount(@Valid @ModelAttribute DonationRequest donationRequest, BindingResult bindingResult, @AuthenticationPrincipal AuthenticationMetaData authenticationMetaData) {
         if (bindingResult.hasErrors()) {
-            return "donation-page";
+            return "donation";
         }
 
         UUID userId = authenticationMetaData.getId();
@@ -71,8 +84,4 @@ public class DonationController {
         donationService.donateAmount(user, donationRequest);
         return "redirect:/users/" + userId + "/profile/payment";
     }
-
-//
-//    @PostMapping("/payment")
-//    public ModelAndView payDonation()
 }

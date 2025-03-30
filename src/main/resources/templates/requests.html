@@ -49,13 +49,13 @@
             <td th:text="${#strings.toLowerCase(adoption.pet.specie.name())}"></td>
             <td th:text="${#temporals.format(adoption.requestedOn, 'dd-MM-yyyy HH:mm')}"></td>
             <td class="check-icons">
-                <form th:action="@{'/admin-panel/' + ${adoption.id} + '/approve'}" method="post">
+                <form th:action="@{'/requests/' + ${adoption.id} + '/approve'}" method="post">
                     <input type="hidden" name="_method" value="PUT">
                     <button type="submit" class="approve">
                         <i class="fa-solid fa-check green"></i>
                     </button>
                 </form>
-                <form th:action="@{'/admin-panel/' + ${adoption.id} + '/reject'}" method="post">
+                <form th:action="@{'/requests/' + ${adoption.id} + '/reject'}" method="post">
                     <input type="hidden" name="_method" value="PUT">
                     <button type="submit" class="reject">
                         <i class="fa-solid fa-xmark red"></i>

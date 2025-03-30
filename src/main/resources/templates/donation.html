@@ -24,7 +24,7 @@
     </section>
     <section class="donation">
         <p>Choose an amount or type in your own</p>
-        <form class="buttons" th:action="@{/donation/ready-amount}" th:method="POST">
+        <form class="buttons" th:action="@{/donations/ready-amount}" th:method="POST">
             <button type="submit" class="donation-amount" name="amount" th:value="10">€10</button>
             <button type="submit" class="donation-amount" name="amount" th:value="20">€20</button>
             <button type="submit" class="donation-amount" name="amount" th:value="50">€50</button>
@@ -33,7 +33,7 @@
             <button type="submit" class="donation-amount" name="amount" th:value="1000">€1000</button>
         </form>
 
-        <form class="donate-button" th:action="@{/donation/amount}" th:method="POST" th:object="${donationRequest}">
+        <form class="donate-button" th:action="@{/donations/amount}" th:method="POST" th:object="${donationRequest}">
         <section class="input-donation">
             <label for="amount"></label>
             <section class="input-icon">

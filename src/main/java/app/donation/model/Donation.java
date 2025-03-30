@@ -6,6 +6,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Builder
@@ -27,4 +28,7 @@ public class Donation {
 
     @ManyToOne
     private CreditCard creditCard;
+
+    @Column(nullable = false)
+    private LocalDateTime createdOn;
 }

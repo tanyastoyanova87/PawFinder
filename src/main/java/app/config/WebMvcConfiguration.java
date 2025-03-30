@@ -16,7 +16,7 @@ public class WebMvcConfiguration implements WebMvcConfigurer {
         security.authorizeHttpRequests(matchers -> matchers
                         .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
                         .requestMatchers("/", "/register", "/pets-care", "/cat-care", "/dog-care",
-                                "/pets-for-adoption", "/pets-for-adoption/{id}/info").permitAll()
+                                "/pets-for-adoption", "/pets-for-adoption/{id}/info", "/about-us").permitAll()
                         .requestMatchers("/admin-panel").hasRole("ADMIN")
                         .requestMatchers("/users").hasRole("ADMIN")
                         .requestMatchers("/users/{id}/role").hasRole("ADMIN")

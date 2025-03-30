@@ -1,39 +1,21 @@
 package app.web;
 
-import app.adoption.model.Adoption;
-import app.adoption.service.AdoptionService;
-import app.pet.model.Pet;
-import app.pet.service.PetService;
-import app.security.AuthenticationMetaData;
-import app.user.model.User;
 import app.user.service.UserService;
 import app.web.dto.LoginRequest;
 import app.web.dto.RegisterRequest;
 import jakarta.validation.Valid;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
-
-import java.util.Arrays;
-import java.util.List;
-import java.util.UUID;
 
 @Controller
 public class IndexController {
 
     private final UserService userService;
-    private final PetService petService;
-    private final AdoptionService adoptionService;
 
-    public IndexController(UserService userService, PetService petService, AdoptionService adoptionService) {
+    public IndexController(UserService userService) {
         this.userService = userService;
-        this.petService = petService;
-        this.adoptionService = adoptionService;
     }
 
     @GetMapping
@@ -92,6 +74,14 @@ public class IndexController {
     public ModelAndView getDogsCarePage() {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("dog-care");
+
+        return modelAndView;
+    }
+
+    @GetMapping("/about-us")
+    public ModelAndView getContactUsPage() {
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("about-us");
 
         return modelAndView;
     }

@@ -11,6 +11,9 @@ import app.user.model.User;
 import app.web.dto.DonationRequest;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
+import java.util.List;
+
 @Service
 public class DonationService {
 
@@ -45,6 +48,7 @@ public class DonationService {
                 .owner(user)
                 .amount(donationRequest.getAmount())
                 .creditCard(user.getCreditCard())
+                .createdOn(LocalDateTime.now())
                 .build();
 
         donationRepository.save(donation);
@@ -58,5 +62,9 @@ public class DonationService {
         String body = "Hey, %s!%nThank you for your donation! Because of your support, we can provide food, medical care, and shelter to animals in need, giving them the love and attention they deserve.%nBest regards,%nThe PawFinder Team".formatted(user.getFirstName());
         String emailsSender = "pawfinder2025@gmail.com";
         emailService.sendEmail(user.getId(), subject, body, user.getEmail(), emailsSender);
+    }
+
+    public List<Donation> findAll() {
+        return donationRepository.findAll();
     }
 }

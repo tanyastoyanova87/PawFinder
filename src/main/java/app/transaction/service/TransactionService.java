@@ -8,6 +8,8 @@ import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.List;
+import java.util.UUID;
 
 @Service
 public class TransactionService {
@@ -32,5 +34,9 @@ public class TransactionService {
                 .build();
 
         transactionRepository.save(transaction);
+    }
+
+    public List<Transaction> findAllTransactionsByUserId(UUID id) {
+       return transactionRepository.findAllByOwnerId(id);
     }
 }

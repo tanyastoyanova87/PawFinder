@@ -1,0 +1,125 @@
+@import url('https://fonts.googleapis.com/css2?family=Amaranth:ital,wght@0,400;0,700;1,400;1,700&family=Coda:wght@400;800&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Amaranth:ital,wght@0,400;0,700;1,400;1,700&family=Coda:wght@400;800&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Roboto+Serif:ital,opsz,wght@0,8..144,100..900;1,8..144,100..900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Amaranth:ital,wght@0,400;0,700;1,400;1,700&family=Cardo:ital,wght@0,400;0,700;1,400&family=Coda:wght@400;800&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Pacifico&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Roboto+Serif:ital,opsz,wght@0,8..144,100..900;1,8..144,100..900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Montserrat", serif;
+}
+
+body {
+    font-family: "Montserrat", sans-serif;
+}
+
+footer .same-background {
+    background-color: #E5AA70;
+    background-image: linear-gradient(315deg, #E5AA70 0%, #9c5628 74%);
+}
+
+header {
+    position: relative;
+    z-index: 100;
+}
+
+.header-about-us {
+    position: relative;
+    height: 80vh;
+    width: 100%;
+    margin-bottom: 10rem;
+}
+
+.header-about-us::before {
+    content: "";
+    background-color: #c5c4a9;
+    background-image: url("https://www.allaboutpetsprovo.com/wp-content/uploads/2019/11/volunteer-animal-shelter.jpg");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    filter: brightness(50%);
+}
+
+.header-about-us h1 {
+    font-family: 'Poppins', sans-serif;
+    position: relative;
+    font-size: 50px;
+    text-align: center;
+    opacity: 1;
+    color: white;
+    font-weight: 700;
+    letter-spacing: 0.5rem;
+    padding: 12rem;
+}
+
+.who-are-we {
+    display: flex;
+    justify-content: center;
+    gap: 10rem;
+    margin-bottom: 10rem;
+    color: #3E3E3E;
+}
+
+.who-are-we .text {
+    margin-left: 12rem;
+    line-height: 1.6;
+}
+
+.who-are-we .text h2 {
+    margin-bottom: 2rem;
+    text-align: center;
+}
+
+.who-are-we .photo img {
+    max-width: 450px;
+    margin-right: 12rem;
+}
+
+.mission {
+    display: flex;
+    justify-content: center;
+    gap: 10rem;
+    margin-bottom: 10rem;
+    color: #3E3E3E;
+}
+
+.mission .text {
+    margin-right: 12rem;
+    line-height: 1.6;
+}
+
+.mission .text h2 {
+    margin-bottom: 2rem;
+    text-align: center;
+}
+
+.mission .photo img {
+    max-width: 450px;
+    margin-left: 12rem;
+}
+
+.join-us {
+    text-align: center;
+    margin: 0 10rem 10rem 10rem;
+    line-height: 1.6;
+    padding-top: 10rem;
+    color: #3E3E3E;
+}
+
+.border {
+    border-top: 1px solid lightgray;
+}
+
+.join-us h1 {
+    margin-bottom: 2rem;
+}
+
+.join-us h3 {
+    margin-top: 1rem;
+}
+

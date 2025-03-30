@@ -22,12 +22,12 @@
                     </li>
                 </ul>
             </a></li>
-            <li class="li-bar"><a class="link-bar" th:href="@{/donation}">DONATE</a></li>
-            <li class="li-bar"><a class="link-bar" href="#">CONTACT US</a></li>
+            <li class="li-bar"><a class="link-bar" th:href="@{/donations/donation}">DONATE</a></li>
+            <li class="li-bar"><a class="link-bar" th:href="@{/about-us}">ABOUT US</a></li>
             <li th:if="${user != null} and ${user.role.name() == 'ADMIN'}" class="li-bar"><p class="link-bar">ADMIN
                 PANEL
                 <ul class="submenu-admin">
-                    <li><a class="submenu-a" th:href="@{/admin-panel}">REQUESTS</a>
+                    <li><a class="submenu-a" th:href="@{/requests}">REQUESTS</a>
                     </li>
                     <li><a class="submenu-a" th:href="@{/users}">USERS</a>
                     </li>
@@ -60,6 +60,9 @@
                                           th:href="@{'/users/' + ${user.id} + '/profile/payment'}">
                         Virtual credit card</a></li>
                     <li class="li-bar"><a class="link-bar"
+                                          th:href="@{'/users/' + ${user.id} + '/profile/transactions'}">
+                        Transactions</a></li>
+                    <li class="li-bar"><a class="link-bar"
                                           th:href="@{/logout}">Logout</a></li>
                 </ul>
             </div>
@@ -72,18 +75,17 @@
         <section class="useful-links">
             <p>RESOURCES</p>
             <ul>
-                <li><a href="#">About us</a></li>
-                <li><a href="#">FAQ</a></li>
-                <li><a href="#">Pets care</a></li>
-                <li><a href="#">Adopt</a></li>
-                <li><a href="#">Donate</a></li>
+                <li><a th:href="@{/about-us}">About us</a></li>
+                <li><a th:href="@{/pets-care}">Pets care</a></li>
+                <li><a th:href="@{/pets-for-adoption}">Adopt</a></li>
+                <li><a th:href="@{/donations}">Donate</a></li>
             </ul>
         </section>
 
         <section class="contact">
             <p>CONTACT</p>
             <p><i class="fa-solid fa-phone"></i>+359 89 712 4567</p>
-            <p><i class="fa-regular fa-envelope"></i>pawfindersupport@gmail.com</p>
+            <p><i class="fa-regular fa-envelope"></i>pawfinder2025@gmail.com</p>
             <p><i class="fa-solid fa-location-dot"></i>Tsar Asen 13 Sofia, Bulgaria</p>
             <p><i class="fa-regular fa-clock"></i>Every day from 8:00AM to 7:00PM</p>
         </section>

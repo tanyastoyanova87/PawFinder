@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PawFinder</title>
+    <link rel="stylesheet" type="text/css" href="/css/commons.css">
+    <link rel="stylesheet" type="text/css" href="/css/about-us.css">
+    <script src="https://kit.fontawesome.com/f4eab0c21e.js" crossorigin="anonymous"></script>
+</head>
+<body>
+<section class="header-about-us">
+    <header>
+        <nav class="nav-bar">
+            <a th:href="@{/}"><img class="logo-bar" src="/images/6NKIHA-LogoMakr.png" alt="Logo Image"></a>
+            <ul class="ul-bar">
+                <li class="li-bar"><a class="link-bar" th:href="@{/pets-for-adoption}">ADOPT A PET</a></li>
+                <li class="li-bar"><a class="link-bar" th:href="@{/pets-care}">PET CARE
+                    <ul class="submenu">
+                        <li><a class="submenu-a" th:href="@{/cat-care}">CAT</a>
+                        </li>
+                        <li><a class="submenu-a" th:href="@{/dog-care}">DOG</a>
+                        </li>
+                    </ul>
+                </a></li>
+                <li class="li-bar"><a class="link-bar" th:href="@{/donations/donation}">DONATE</a></li>
+                <li class="li-bar"><a class="link-bar" th:href="@{/about-us}">ABOUT US</a></li>
+                <li th:if="${user != null} and ${user.role.name() == 'ADMIN'}" class="li-bar"><p class="link-bar">ADMIN
+                    PANEL
+                    <ul class="submenu-admin">
+                        <li><a class="submenu-a" th:href="@{/requests}">REQUESTS</a>
+                        </li>
+                        <li><a class="submenu-a" th:href="@{/users}">USERS</a>
+                        </li>
+                        <li><a class="submenu-a" th:href="@{/donations}">DONATIONS</a>
+                        </li>
+                    </ul>
+                </li>
+                <div class="profile-dropdown">
+                    <ul class="profile-picture-nav" th:if="${user != null}">
+                        <li class="li-bar profile-pic-nav-li">
+                            <a class="link-bar profile-dropdown-btn">
+                                <img th:src="${#strings.isEmpty(user.profilePicture) ?
+                            'https://images.icon-icons.com/3298/PNG/512/ui_user_profile_avatar_person_icon_208734.png'
+                            : user.profilePicture}" alt="Profile picture">
+                            </a>
+                        </li>
+                        <p th:text="${'Hello, ' + user.username}"></p>
+                    </ul>
+
+                    <ul class="profile-dropdown-content" th:if="${user != null}">
+                        <li class="li-bar"><a class="link-bar" th:href="@{'/users/' + ${user.id} + '/profile'}">Profile</a>
+                        </li>
+                        <li class="li-bar"><a class="link-bar"
+                                              th:href="@{'/users/' + ${user.id} + '/profile/adoption-requests'}">My
+                            requests</a></li>
+                        <li class="li-bar"><a class="link-bar"
+                                              th:href="@{'/users/' + ${user.id} + '/profile/completed-adoptions'}">My
+                            Adoptions</a></li>
+                        <li class="li-bar"><a class="link-bar"
+                                              th:href="@{'/users/' + ${user.id} + '/profile/payment'}">
+                            Virtual credit card</a></li>
+                        <li class="li-bar"><a class="link-bar"
+                                              th:href="@{'/users/' + ${user.id} + '/profile/transactions'}">
+                            Transactions</a></li>
+                        <li class="li-bar"><a class="link-bar"
+                                              th:href="@{/logout}">Logout</a></li>
+                    </ul>
+                </div>
+            </ul>
+        </nav>
+    </header>
+    <h1>About us</h1>
+</section>
+
+<section class="who-are-we">
+    <section class="text">
+        <h2>Who are we?</h2>
+        <p>We are a passionate team of animal lovers, tech enthusiasts,
+            and dedicated professionals working together to create a safe
+            and reliable platform for both pets and their future families.
+            At PawFinder, we believe that every pet deserves a loving home.
+            Our team is made up of individuals who are deeply committed to animal
+            welfare and the importance of connecting pets with responsible adopters.
+            We have come together from various backgrounds—ranging from animal care
+            experts to skilled web developers—to build a platform that makes the
+            adoption process smooth, safe, and transparent.</p>
+    </section>
+    <section class="photo">
+        <img src="/images/Soft-Skills-for-Animal-Shelter-Workers-optimized.webp" alt="People with dog">
+    </section>
+</section>
+<section class="mission">
+    <section class="photo">
+        <img src="/images/become-volunteer-thumb.webp" alt="People with dog">
+    </section>
+    <section class="text">
+        <h2>Our Mission</h2>
+        <p>At PawFinder, our mission is simple: To make pet adoption easy, efficient, and joyful. We believe that
+            adopting a pet should be an exciting and straightforward process, not a complicated one. Through our
+            platform, we connect pets with their forever families and help adopters find the perfect companion.
+            Our team is constantly working to improve the user experience, ensuring that every adoption request is
+            handled with care and that each pet receives the attention they deserve. Whether you're adopting a dog or a
+            cat, we’re here to make the experience as smooth as possible.
+        </p>
+    </section>
+</section>
+<div class="border"></div>
+<section class="join-us">
+    <h1>Join Our Mission</h1>
+    <p>At PawFinder, we’re not just building a platform; we’re building a community of animal lovers. Our goal is to
+        make sure every pet gets the love and care they deserve. If you want to contribute to our mission, whether by
+        adopting, donating, or volunteering, you can always get involved.</p>
+    <h3>Thank you for being part of the PawFinder family. Together, we can make a difference, one pet at a time!</h3>
+</section>
+
+<footer class="same-background" th:replace="~{fragments/commons::footer}"></footer>
+</body>
+</html>
