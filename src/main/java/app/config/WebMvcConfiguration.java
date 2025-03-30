@@ -20,6 +20,7 @@ public class WebMvcConfiguration implements WebMvcConfigurer {
                         .requestMatchers("/admin-panel").hasRole("ADMIN")
                         .requestMatchers("/users").hasRole("ADMIN")
                         .requestMatchers("/users/{id}/role").hasRole("ADMIN")
+                        .requestMatchers("/pets-for-adoption/add-pet").hasRole("ADMIN")
                         .anyRequest().authenticated()
                 )
 

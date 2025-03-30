@@ -1,6 +1,8 @@
 package app.user.service;
 
 import app.adoption.model.Adoption;
+import app.creditCard.model.CreditCard;
+import app.creditCard.service.CreditCardService;
 import app.email.client.dto.Email;
 import app.email.service.EmailService;
 import app.exception.DomainException;
@@ -28,12 +30,14 @@ public class UserService implements UserDetailsService {
 
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
+    private final CreditCardService creditCardService;
     private final EmailService emailService;
 
     @Autowired
-    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder, EmailService emailService) {
+    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder, CreditCardService creditCardService, EmailService emailService) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
+        this.creditCardService = creditCardService;
         this.emailService = emailService;
     }
 
@@ -45,12 +49,16 @@ public class UserService implements UserDetailsService {
         }
 
         User user = initializaUser(registerRequest);
-        this.userRepository.save(user);
+        userRepository.save(user);
+
+        CreditCard creditCard = creditCardService.generateCreditCard(user);
+        user.setCreditCard(creditCard);
+        userRepository.save(user);
 
         log.info("Successfully created user with username [%s].".formatted(user.getUsername()));
 
         String subjectEmail = "Successful registration";
-        String bodyEmail = "Welcome to PawFinder, %s!%nWe're excited to have you as part of our community. If you have any questions, feel free to reach out to us at pawfinder2025@gmail.com or call us +359 89 712 4567.%n%nBest regards!%nThe PawFinder Team".formatted(user.getFirstName());
+        String bodyEmail = "Welcome to PawFinder, %s!%nWe're excited to have you as part of our community. A virtual credit card has been created for you. You can use it to support our pets in need.%nBest regards!%nThe PawFinder Team".formatted(user.getFirstName());
         String email = user.getEmail();
         String sender = "pawfinder2025@gmail.com";
         emailService.sendEmail(user.getId(), subjectEmail, bodyEmail, email, sender);

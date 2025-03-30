@@ -1,6 +1,7 @@
 package app.web;
 
 import app.adoption.model.Adoption;
+import app.creditCard.model.CreditCard;
 import app.email.client.dto.Email;
 import app.user.model.User;
 import app.user.service.UserService;
@@ -96,7 +97,7 @@ public class UserController {
         }
 
         userService.editUserProfile(user, editProfileRequest);
-        return new ModelAndView("redirect:/{id}/profile");
+        return new ModelAndView("redirect:/users/{id}/profile");
     }
 
     @GetMapping("/{id}/profile/adoption-requests")
@@ -128,6 +129,19 @@ public class UserController {
         return modelAndView;
     }
 
+    @GetMapping("/{id}/profile/payment")
+    public ModelAndView getPaymentPage(@PathVariable UUID id) {
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("user-credit-card");
+
+        User user = userService.getById(id);
+        CreditCard creditCard = user.getCreditCard();
+        modelAndView.addObject("user", user);
+        modelAndView.addObject("creditCard", creditCard);
+
+        return modelAndView;
+    }
+
     @PutMapping("/{id}/profile/delete")
     public String changeUserStatus(@PathVariable UUID id, HttpServletRequest request, HttpServletResponse response) {
         User user = this.userService.getById(id);
@@ -140,6 +154,4 @@ public class UserController {
         }
         return "redirect:/";
     }
-
-
 }

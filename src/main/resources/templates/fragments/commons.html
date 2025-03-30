@@ -22,6 +22,7 @@
                     </li>
                 </ul>
             </a></li>
+            <li class="li-bar"><a class="link-bar" th:href="@{/donation}">DONATE</a></li>
             <li class="li-bar"><a class="link-bar" href="#">CONTACT US</a></li>
             <li th:if="${user != null} and ${user.role.name() == 'ADMIN'}" class="li-bar"><p class="link-bar">ADMIN
                 PANEL
@@ -29,6 +30,8 @@
                     <li><a class="submenu-a" th:href="@{/admin-panel}">REQUESTS</a>
                     </li>
                     <li><a class="submenu-a" th:href="@{/users}">USERS</a>
+                    </li>
+                    <li><a class="submenu-a" th:href="@{/donations}">DONATIONS</a>
                     </li>
                 </ul>
             </li>
@@ -53,6 +56,9 @@
                     <li class="li-bar"><a class="link-bar"
                                           th:href="@{'/users/' + ${user.id} + '/profile/completed-adoptions'}">My
                         Adoptions</a></li>
+                    <li class="li-bar"><a class="link-bar"
+                                          th:href="@{'/users/' + ${user.id} + '/profile/payment'}">
+                        Virtual credit card</a></li>
                     <li class="li-bar"><a class="link-bar"
                                           th:href="@{/logout}">Logout</a></li>
                 </ul>

@@ -42,7 +42,7 @@ public class Pet {
     private Gender gender;
 
     @Column(nullable = false)
-    private boolean isVaccinated;
+    private boolean vaccinated;
 
     @Column(nullable = false)
     private boolean isAdopted;

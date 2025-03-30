@@ -15,7 +15,7 @@
 <article>
     <div class="container">
         <div class="form-container"></div>
-        <form th:action="@{'/' + ${user.id} + '/profile/edit'}" th:method="PUT" th:object="${editProfileRequest}">
+        <form th:action="@{'/users/' + ${user.id} + '/profile/edit'}" th:method="PUT" th:object="${editProfileRequest}">
             <h2>Edit your account</h2>
 
             <label for="firstName"></label>
@@ -48,7 +48,7 @@
                    th:errors="*{profilePicture}"></p>
             </section>
 
-            <form class="edit-profile" th:action="@{'/' + ${user.id} + '/profile'}" th:method="get">
+            <form class="edit-profile" th:action="@{'/users/' + ${user.id} + '/profile'}" th:method="get">
                 <button type="submit">SAVE</button>
             </form>
         </form>

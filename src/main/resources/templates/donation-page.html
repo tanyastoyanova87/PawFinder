@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PawFinder</title>
+    <link rel="stylesheet" type="text/css" href="/css/commons.css">
+    <link rel="stylesheet" type="text/css" href="/css/donation-page.css">
+    <script src="https://kit.fontawesome.com/f4eab0c21e.js" crossorigin="anonymous"></script>
+</head>
+<body>
+
+<header th:replace="~{fragments/commons::header}"></header>
+
+<section class="header-donation">
+    <h1>Make a difference with a donation for the animals today</h1>
+    <p> Your donation helps provide food, medical care, and shelter for rescued animals until they find their forever
+        families. Join us in giving these pets a second chance at happiness.</p>
+</section>
+
+<div class="container-donation">
+    <section class="photo-donation">
+        <img src="/images/photo-1543852786-1cf6624b9987.jpg" alt="Dog picture">
+    </section>
+    <section class="donation">
+        <p>Choose an amount or type in your own</p>
+        <form class="buttons" th:action="@{/donation/ready-amount}" th:method="POST">
+            <button type="submit" class="donation-amount" name="amount" th:value="10">€10</button>
+            <button type="submit" class="donation-amount" name="amount" th:value="20">€20</button>
+            <button type="submit" class="donation-amount" name="amount" th:value="50">€50</button>
+            <button type="submit" class="donation-amount" name="amount" th:value="100">€100</button>
+            <button type="submit" class="donation-amount" name="amount" th:value="500">€500</button>
+            <button type="submit" class="donation-amount" name="amount" th:value="1000">€1000</button>
+        </form>
+
+        <form class="donate-button" th:action="@{/donation/amount}" th:method="POST" th:object="${donationRequest}">
+        <section class="input-donation">
+            <label for="amount"></label>
+            <section class="input-icon">
+                <i class="fa-solid fa-euro-sign"></i>
+                <input type="number" placeholder="0" id="amount" th:field="*{amount}" required>
+            </section>
+        </section>
+        <p class="input-error" th:if="${#fields.hasErrors('amount')}"
+           th:errors="*{amount}"></p>
+
+            <button type="submit">DONATE »</button>
+        </form>
+    </section>
+</div>
+<footer class="same-background" th:replace="~{fragments/commons::footer}"></footer>
+</body>
+</html>

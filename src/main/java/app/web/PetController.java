@@ -6,6 +6,7 @@ import app.pet.service.PetService;
 import app.security.AuthenticationMetaData;
 import app.user.model.User;
 import app.user.service.UserService;
+import app.web.dto.AddPetRequest;
 import app.web.dto.AdoptionRequest;
 import jakarta.validation.Valid;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -13,7 +14,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -42,6 +42,26 @@ public class PetController {
 
         return modelAndView;
     }
+
+    @GetMapping("/add-pet")
+    public ModelAndView getNewPetForAdoptionPage() {
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("add-pet");
+        modelAndView.addObject("addPetRequest", AddPetRequest.builder().build());
+
+        return modelAndView;
+    }
+
+    @PostMapping("/add-pet")
+    public String addNewPetForAdoption(@Valid @ModelAttribute AddPetRequest addPetRequest, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            return "add-pet";
+        }
+
+        petService.addPet(addPetRequest);
+        return "redirect:/pets-for-adoption";
+    }
+
 
 //    @PostMapping("/{id}/like")
 //    @ResponseBody

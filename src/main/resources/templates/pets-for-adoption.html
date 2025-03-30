@@ -14,6 +14,7 @@
 
 <section class="header-available-pets">
     <h1>Available pets for adoption</h1>
+    <p class="available-pets-count" th:text="${pets.size() + ' pets'}"></p>
 </section>
 
 <article class="available-pets">
@@ -30,6 +31,11 @@
             </form>
         </div>
     </section>
+    <div th:if="${user}">
+        <form class="add-pet" th:action="@{/pets-for-adoption/add-pet}" th:method="GET" th:if="${user.role.name == 'ADMIN'}">
+            <button class="new-pet">ADD NEW PET</button>
+        </form>
+    </div>
 </article>
 <div class="same-background" th:replace="~{fragments/commons::footer}"></div>
 </body>

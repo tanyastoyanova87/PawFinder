@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
@@ -19,7 +20,7 @@ public class CreditCard {
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
-    @ManyToOne
+    @OneToOne
     private User owner;
 
     @Column(nullable = false)
@@ -29,9 +30,9 @@ public class CreditCard {
     private String cardNumber;
 
     @Column(nullable = false)
-    private String cardExpiration;
+    private LocalDateTime cardExpiration;
 
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true)
     private String cardCVV;
 
     @Column(nullable = false)

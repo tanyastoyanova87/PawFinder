@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PawFinder</title>
+    <script src="https://kit.fontawesome.com/f4eab0c21e.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" type="text/css" href="/css/commons.css">
+    <link rel="stylesheet" type="text/css" href="/css/add-pet.css">
+</head>
+<body>
+
+<header th:replace="~{fragments/commons::header}"></header>
+
+<article>
+    <div class="form-container"></div>
+    <form th:action="@{/pets-for-adoption/add-pet}" th:method="POST" th:object="${addPetRequest}">
+
+        <div class="title-pet">
+            <h2>Add pet</h2>
+            <i class="fa-solid fa-paw"></i>
+        </div>
+
+        <label for="name">Name</label>
+        <input type="text" placeholder="Name" id="name" th:field="*{name}" required>
+        <p class="input-error" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></p>
+
+        <label for="specie">Specie</label>
+        <select id="specie" th:field="*{specie}">
+            <optgroup label="Choose a specie">
+                <option value="" selected style="display:none">Choose a specie</option>
+                <option th:each="specie : ${T(app.pet.model.Specie).values()}" th:value="${specie}"
+                        th:text="${#strings.capitalize(#strings.toLowerCase(specie))}">
+                </option>
+        </select>
+        <p class="input-error" th:if="${#fields.hasErrors('specie')}" th:errors="*{specie}"></p>
+
+        <label for="age-status">Age status</label>
+        <select id="age-status" th:field="*{ageStatus}">
+            <optgroup label="Choose an age status">
+                <option value="" selected style="display:none">Choose an age status</option>
+                <option th:each="status : ${T(app.pet.model.AgeStatus).values()}" th:value="${status}"
+                        th:text="${#strings.capitalize(#strings.toLowerCase(status))}">
+                </option>
+        </select>
+        <p class="input-error" th:if="${#fields.hasErrors('ageStatus')}" th:errors="*{ageStatus}"></p>
+
+        <label for="hair-length">Hair length</label>
+        <select id="hair-length" th:field="*{hairLength}">
+            <optgroup label="Choose a hair length">
+                <option value="" selected style="display:none">Choose a hair length</option>
+                <option th:each="hair : ${T(app.pet.model.HairLength).values()}" th:value="${hair}"
+                        th:text="${#strings.capitalize(#strings.toLowerCase(hair))}">
+                </option>
+        </select>
+        <p class="input-error" th:if="${#fields.hasErrors('hairLength')}" th:errors="*{hairLength}"></p>
+
+        <label for="gender">Gender</label>
+        <select id="gender" th:field="*{gender}">
+            <optgroup label="Choose a gender">
+                <option value="" selected style="display:none">Choose a gender</option>
+                <option th:each="gender : ${T(app.pet.model.Gender).values()}" th:value="${gender}"
+                        th:text="${#strings.capitalize(#strings.toLowerCase(gender))}">
+                </option>
+        </select>
+        <p class="input-error" th:if="${#fields.hasErrors('gender')}" th:errors="*{gender}"></p>
+
+        <label for="description">Description</label>
+        <input type="text" placeholder="Description" id="description" th:field="*{description}" required>
+        <p class="input-error" th:if="${#fields.hasErrors('description')}" th:errors="*{description}"></p>
+
+        <p class="owning-pets">Is the pet vaccinated?</p>
+        <div class="container-checkbox">
+            <label for="vaccinatedYes" class="radio-label">
+                <input type="radio" id="vaccinatedYes" name="vaccinated" value="true" th:field="*{vaccinated}" required>Yes
+            </label>
+            <label for="vaccinatedNo" class="radio-label">
+                <input type="radio" id="vaccinatedNo" name="vaccinated" value="false" th:field="*{vaccinated}" required>No
+            </label>
+        </div>
+
+        <label for="picture">Picture</label>
+        <input type="url" placeholder="Picture" id="picture" th:field="*{picture}" required>
+        <p class="input-error" th:if="${#fields.hasErrors('picture')}" th:errors="*{picture}"></p>
+
+        <button type="submit">Submit</button>
+    </form>
+</article>
+
+<footer class="same-background" th:replace="~{fragments/commons::footer}"></footer>
+</body>
+</html>

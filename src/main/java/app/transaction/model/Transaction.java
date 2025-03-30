@@ -6,7 +6,6 @@ import lombok.*;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
-import java.util.Currency;
 import java.util.UUID;
 
 @Builder
@@ -35,9 +34,6 @@ public class Transaction {
 
     @Column(nullable = false)
     private BigDecimal balanceLeft;
-
-    @Column(nullable = false)
-    private Currency currency;
 
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)

@@ -74,6 +74,6 @@ public class User {
     @OneToMany(mappedBy = "owner", fetch = FetchType.EAGER)
     private List<Donation> donation = new ArrayList<>();
 
-    @OneToMany(mappedBy = "owner")
-    private List<CreditCard> creditCards;
+    @OneToOne(mappedBy = "owner")
+    private CreditCard creditCard;
 }

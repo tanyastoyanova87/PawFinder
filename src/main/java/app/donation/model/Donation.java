@@ -6,7 +6,6 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.math.BigDecimal;
-import java.util.Currency;
 import java.util.UUID;
 
 @Builder
@@ -24,10 +23,7 @@ public class Donation {
     private User owner;
 
     @Column(nullable = false)
-    private BigDecimal companyBalance;
-
-    @Column(nullable = false)
-    private Currency currency;
+    private BigDecimal amount;
 
     @ManyToOne
     private CreditCard creditCard;

@@ -10,8 +10,7 @@ import lombok.Setter;
 @Setter
 public class AdoptionRequest {
 
-    @Size(min = 3, max = 50, message = "Full name must be between 3 and 50 letters.")
-    @Pattern(regexp = "[A-Z][a-z]+ [A-Z][a-z]+", message = "Full name must start with capital letter and include first and last name.")
+    @Pattern(regexp = "^(?=.{3,50}$)[A-Z][a-z]+ [A-Z][a-z]+$", message = "Full name must start with capital letter, including first and last name and must be between 3 and 50 characters.")
     @NotBlank(message = "Full name can not be empty.")
     private String fullName;
 
@@ -19,13 +18,11 @@ public class AdoptionRequest {
     @NotNull(message = "Age can not be empty.")
     private int age;
 
-    @Size(min = 3, max = 30, message = "Address name must be between 1 and 60 letters.")
-    @Pattern(regexp = "^[A-Za-z]+(\\s[A-Za-z]+)*\\s\\d+$", message = "Address must include the number of the street.")
+    @Pattern(regexp = "^(?=.{3,30}$)[A-Za-z]+(\\s[A-Za-z]+)*\\s\\d+$", message = "Address must include the number of the street and must be between 3 and 30 characters.")
     @NotBlank(message = "Address can not be empty.")
     private String address;
 
-    @Size(min = 1, max = 60, message = "City name must be between 1 and 60 letters.")
-    @Pattern(regexp = "^[A-Z][a-z]+(\\s[A-Z][a-z]+)*$", message = "City must start with capital letter.")
+    @Pattern(regexp = "^(?=.{1,60}$)[A-Z][a-z]+(\\s[A-Z][a-z]+)*$", message = "City must start with capital letter and must be between 1 and 60 characters.")
     @NotBlank(message = "City can not be empty.")
     private String city;
 

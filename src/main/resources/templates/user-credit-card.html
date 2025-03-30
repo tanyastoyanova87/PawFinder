@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PawFinder</title>
+    <script src="https://kit.fontawesome.com/f4eab0c21e.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" type="text/css" href="/css/commons.css">
+    <link rel="stylesheet" type="text/css" href="/css/user-credit-card.css">
+</head>
+<body>
+
+<header th:replace="~{fragments/commons::header}"></header>
+
+<section class="header">
+    <h1>My virtual credit card <i class="fas fa-paw"></i></h1>
+    <h3 th:text="${'Balance: €' + creditCard.balance}"></h3>
+</section>
+<div class="credit-card">
+    <div class="circle1"></div>
+    <div class="circle2"></div>
+    <div class="head">
+        <div>
+            <i class="fa-solid fa-credit-card fa-2xl"></i>
+        </div>
+        <div>Virtual Credit Card</div>
+    </div>
+    <div class="number">
+        <div>****</div>
+        <div>****</div>
+        <div>****</div>
+        <div th:text="${#strings.substring(creditCard.cardNumber, 12, 16)}"></div>
+    </div>
+    <div class="tail">
+        <div th:text="${creditCard.cardHolderName}"></div>
+        <div class="exp">Exp:
+            <span class="exp-date" th:text="${#temporals.format(creditCard.cardExpiration, 'MM/yyyy')}">12/26</span>
+        </div>
+    </div>
+</div>
+
+<footer class="same-background" th:replace="~{fragments/commons::footer}"></footer>
+</body>
+</html>

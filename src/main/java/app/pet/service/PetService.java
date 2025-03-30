@@ -1,20 +1,15 @@
 package app.pet.service;
 
 import app.adoption.model.Adoption;
-import app.adoption.model.RequestStatus;
 import app.exception.DomainException;
 import app.pet.model.Pet;
 import app.pet.repository.PetRepository;
 import app.user.model.User;
 import app.user.service.UserService;
-import app.web.dto.AdoptionRequest;
-import app.web.dto.PetRequest;
-import jakarta.validation.Valid;
+import app.web.dto.AddPetRequest;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -35,7 +30,7 @@ public class PetService {
         return petRepository.findAll();
     }
 
-    public void addPet(PetRequest petRequest) {
+    public void addPet(AddPetRequest petRequest) {
         Optional<Pet> optionalPet = petRepository.findByName(petRequest.getName());
         if (optionalPet.isPresent()) {
             throw new DomainException("Pet with this name already exist.");
@@ -45,14 +40,14 @@ public class PetService {
         petRepository.save(pet);
     }
 
-    private Pet initializePet(PetRequest petRequest) {
+    private Pet initializePet(AddPetRequest petRequest) {
         return Pet.builder()
                 .name(petRequest.getName())
                 .specie(petRequest.getSpecie())
                 .ageStatus(petRequest.getAgeStatus())
                 .hairLength(petRequest.getHairLength())
                 .gender(petRequest.getGender())
-                .isVaccinated(petRequest.isVaccinated())
+                .vaccinated(petRequest.isVaccinated())
                 .isAdopted(false)
                 .picture(petRequest.getPicture())
                 .description(petRequest.getDescription())

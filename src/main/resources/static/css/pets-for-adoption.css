@@ -118,3 +118,35 @@ button i {
     display: flex;
     justify-content: center;
 }
+
+.add-pet {
+    display: flex;
+    justify-content: center;
+}
+
+.new-pet {
+    position: relative;
+    top: -0.2rem;
+    left: -0.1rem;
+    width: 300px;
+    height: 420px;
+    border-radius: 2rem;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    border: none;
+    cursor: pointer;
+    font-size: 25px;
+    font-weight: bold;
+    color: darkgrey;
+    opacity: 0.8;
+}
+
+.new-pet:hover {
+    box-shadow: 0 4px 10px rgb(197, 195, 195);
+    opacity: 1;
+}
+
+.available-pets-count {
+    font-size: 28px;
+    color: white;
+    font-family: "Pacifico", cursive;
+}

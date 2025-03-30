@@ -25,7 +25,7 @@ article {
     flex-direction: row;
     width: 75%;
     max-width: 1100px;
-    height: 800px;
+    height: 900px;
     border-radius: 12px;
     overflow: hidden;
     box-shadow: 0 4px 10px rgba(96, 93, 93, 0.5);
@@ -153,5 +153,4 @@ button:hover {
 .input-error {
     font-size: 12px;
     color: red;
-
 }

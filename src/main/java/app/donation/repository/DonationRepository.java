@@ -7,6 +7,6 @@ import org.springframework.stereotype.Repository;
 import java.util.UUID;
 
 @Repository
-public interface DonationShelterRepository extends JpaRepository<Donation, UUID> {
+public interface DonationRepository extends JpaRepository<Donation, UUID> {
 
 }

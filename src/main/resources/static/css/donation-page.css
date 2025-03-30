@@ -1,0 +1,140 @@
+@import url('https://fonts.googleapis.com/css2?family=Amaranth:ital,wght@0,400;0,700;1,400;1,700&family=Coda:wght@400;800&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Amaranth:ital,wght@0,400;0,700;1,400;1,700&family=Coda:wght@400;800&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Roboto+Serif:ital,opsz,wght@0,8..144,100..900;1,8..144,100..900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Amaranth:ital,wght@0,400;0,700;1,400;1,700&family=Cardo:ital,wght@0,400;0,700;1,400&family=Coda:wght@400;800&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Pacifico&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Roboto+Serif:ital,opsz,wght@0,8..144,100..900;1,8..144,100..900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Montserrat", serif;
+}
+
+body {
+    background-color: #c5c4a9;
+    font-family: "Montserrat", sans-serif;
+}
+
+header, footer .same-background {
+    background-color: #E5AA70;
+    background-image: linear-gradient(315deg, #E5AA70 0%, #9c5628 74%);
+}
+
+.header-donation {
+    margin: 5rem auto;
+    text-align: center;
+    color: #3E3E3E;
+    max-width: 60%;
+}
+
+.header-donation h1 {
+    font-size: 42px;
+    font-weight: 700;
+    color: #9c5628;
+    margin-bottom: 1rem;
+}
+
+.header-donation p {
+    font-size: 22px;
+    line-height: 1.5;
+}
+
+.donation {
+    margin-top: 5rem;
+    background: white;
+    width: 400px;
+    height: 450px;
+    text-align: center;
+    padding: 2rem;
+    box-shadow: 2px 4px 10px rgba(0, 0, 0, 0.1);
+    border-radius: 15px;
+}
+
+.donation p {
+    font-weight: bolder;
+    font-size: 20px;
+    margin-bottom: 2rem;
+    color: #3E3E3E;
+}
+
+.buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    justify-content: center;
+}
+
+.donation-amount {
+    padding: 0.6rem 1.2rem;
+    width: 100px;
+    font-size: 20px;
+    background-color: white;
+    border: 2px solid #c5c4a9;
+    cursor: pointer;
+    color: #3a3a3a;
+}
+
+.donation-amount:hover, .donation-amount:focus {
+    background-color: #fff6e9;
+    color: #9c5628;
+    border: 2px solid #9c5628;
+}
+
+.input-donation {
+    margin-top: 2rem;
+    font-size: 20px;
+}
+
+.input-donation input {
+    padding: 1rem 1.5rem;
+    width: 95%;
+    border: 2px solid #c5c4a9;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+}
+
+.input-icon .fa-solid {
+    position: absolute;
+    padding: 1rem 0.5rem 1.5rem 0.5rem;
+    margin-right: 0.5rem;
+    color: #9c5628;
+}
+
+.donate-button {
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+}
+
+.donate-button button {
+    width: 95%;
+    padding: 1rem;
+    cursor: pointer;
+    background-image: linear-gradient(315deg, #E5AA70 0%, #9c5628 74%);
+    box-shadow: 2px 4px 10px rgba(0, 0, 0, 0.2);
+    border: none;
+    color: white;
+    border-radius: 8px;
+    margin-top: 2rem;
+}
+
+.donate-button button:hover {
+    opacity: 0.8;
+    filter: brightness(1);
+    box-shadow: 4px 6px 14px rgba(0, 0, 0, 0.3);
+}
+
+.container-donation {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 5rem;
+    gap: 2rem;
+}
+
+.photo-donation {
+    width: 400px;
+}
+
+.container-donation .photo-donation img {
+    max-width: 400px;
+    border-radius: 1rem;
+    box-shadow: 2px 4px 10px rgba(0, 0, 0, 0.2);
+}
