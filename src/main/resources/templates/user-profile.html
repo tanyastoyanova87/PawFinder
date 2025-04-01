@@ -35,7 +35,7 @@
             <section class="created-profile">
                 <p th:text="'Created profile: ' + ${#temporals.format(user.createdOn, 'dd-MM-yyyy HH:mm')}"></p>
             </section>
-            <form class="delete-profile" th:action="@{'/users/' + ${user.id} + '/profile/delete'}" th:method="PUT">
+            <form class="delete-profile" th:action="@{'/users/' + ${user.id} + '/profile/delete'}" th:method="DELETE">
                 <button type="submit">Delete your account</button>
             </form>
         </section>

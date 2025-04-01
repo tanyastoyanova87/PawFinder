@@ -12,6 +12,7 @@ import app.web.mapper.DtoMapper;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
@@ -35,6 +36,7 @@ public class UserController {
     }
 
     @GetMapping
+    @PreAuthorize("hasRole('ADMIN')")
     public ModelAndView getUsersPage() {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("users");
@@ -56,6 +58,7 @@ public class UserController {
     }
 
     @PutMapping("/{id}/role")
+    @PreAuthorize("hasRole('ADMIN')")
     public String changeUserRole(@PathVariable UUID id) {
         User user = userService.getById(id);
         userService.changeRoleByAdmin(user);
@@ -133,7 +136,7 @@ public class UserController {
         return modelAndView;
     }
 
-    @GetMapping("/{id}/profile/payment")
+    @GetMapping("/{id}/profile/credit-card")
     public ModelAndView getPaymentPage(@PathVariable UUID id) {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("user-credit-card");
@@ -156,7 +159,7 @@ public class UserController {
         return modelAndView;
     }
 
-    @PutMapping("/{id}/profile/delete")
+    @DeleteMapping("/{id}/profile/delete")
     public String changeUserStatus(@PathVariable UUID id, HttpServletRequest request, HttpServletResponse response) {
         User user = this.userService.getById(id);
 

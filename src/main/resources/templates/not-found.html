@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PawFinder</title>
+    <link rel="stylesheet" type="text/css" href="/css/commons.css">
+    <link rel="stylesheet" type="text/css" href="/css/not-found.css">
+    <script src="https://kit.fontawesome.com/f4eab0c21e.js" crossorigin="anonymous"></script>
+</head>
+<body>
+<div class="container-background">
+    <header th:replace="~{fragments/commons::header}"></header>
+</div>
+
+<section class="container-not-found">
+    <section class="text-not-found">
+        <h1>Whoops!</h1>
+        <p>Sorry, the page you're looking for cannot be found.</p>
+        <p class="status-code">Error code 404</p>
+    </section>
+    <section class="png-not-found">
+        <img src="/images/image-from-rawpixel-id-16883302-png.png" alt="Dog photo">
+    </section>
+</section>
+<footer class="same-background" th:replace="~{fragments/commons::footer}"></footer>
+</body>
+</html>

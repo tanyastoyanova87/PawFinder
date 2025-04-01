@@ -4,7 +4,7 @@ import app.creditCard.model.CreditCard;
 import app.donation.model.Donation;
 import app.donation.repository.DonationRepository;
 import app.email.service.EmailService;
-import app.exception.DomainException;
+import app.exception.InsufficientFundsException;
 import app.transaction.model.TransactionStatus;
 import app.transaction.service.TransactionService;
 import app.user.model.User;
@@ -39,7 +39,7 @@ public class DonationService {
                     receiver, donationRequest.getAmount(), creditCard.getBalance(), TransactionStatus.FAILED,
                     description, failureReason);
 
-            throw new DomainException("You do not have enough money for this amount of donation.");
+            throw new InsufficientFundsException("You do not have enough money for this amount of donation.");
         }
 
         creditCard.setBalance(creditCard.getBalance().subtract(donationRequest.getAmount()));

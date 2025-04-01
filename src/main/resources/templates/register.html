@@ -40,6 +40,7 @@
                 <i class="fa-solid fa-circle-user"></i>
                 <input type="text" placeholder="Username" id="username" th:field="*{username}" required>
                 <p class="input-error" th:if="${#fields.hasErrors('username')}" th:errors="*{username}"></p>
+                <p class="input-error" th:text="${usernameAlreadyExistException}"></p>
             </section>
 
             <label for="email"></label>

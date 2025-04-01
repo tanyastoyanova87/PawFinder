@@ -7,6 +7,7 @@ import app.user.model.User;
 import app.user.service.UserService;
 import app.web.dto.DonationRequest;
 import jakarta.validation.Valid;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -29,6 +30,7 @@ public class DonationController {
     }
 
     @GetMapping
+    @PreAuthorize("hasRole('ADMIN')")
     public ModelAndView getDonationsPage() {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("donations");
@@ -82,6 +84,6 @@ public class DonationController {
         User user = userService.getById(userId);
 
         donationService.donateAmount(user, donationRequest);
-        return "redirect:/users/" + userId + "/profile/payment";
+        return "redirect:/users/" + userId + "/profile/credit-card";
     }
 }

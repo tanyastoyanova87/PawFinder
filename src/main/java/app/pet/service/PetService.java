@@ -1,7 +1,9 @@
 package app.pet.service;
 
 import app.adoption.model.Adoption;
-import app.exception.DomainException;
+import app.exception.PetAlreadyAdoptedException;
+import app.exception.ResourceNotFoundException;
+import app.exception.UsernameAlreadyExistException;
 import app.pet.model.Pet;
 import app.pet.repository.PetRepository;
 import app.user.model.User;
@@ -33,7 +35,7 @@ public class PetService {
     public void addPet(AddPetRequest petRequest) {
         Optional<Pet> optionalPet = petRepository.findByName(petRequest.getName());
         if (optionalPet.isPresent()) {
-            throw new DomainException("Pet with this name already exist.");
+            throw new UsernameAlreadyExistException("Pet with name %s already exist.".formatted(petRequest.getName()), "/pets-for-adoption/add-pet");
         }
 
         Pet pet = initializePet(petRequest);
@@ -55,7 +57,7 @@ public class PetService {
     }
 
     public Pet getById(UUID id) {
-        return petRepository.findById(id).orElseThrow(() -> new DomainException("Pet with id [%s] does not exist.".formatted(id)));
+        return petRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Pet with id [%s] does not exist.".formatted(id)));
     }
 
     public void setOwnerOfPet(Adoption adoption) {
@@ -72,7 +74,7 @@ public class PetService {
     public void checkIfPetIsAdopted(List<Adoption> adoptions, Pet pet) {
         for (Adoption adoption : adoptions) {
             if (pet.isAdopted()) {
-                throw new DomainException("Pet with id [%s] is already adopted.".formatted(adoption.getPet().getId()));
+                throw new PetAlreadyAdoptedException("Pet with id [%s] is already adopted.".formatted(adoption.getPet().getId()));
             }
         }
     }

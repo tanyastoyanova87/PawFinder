@@ -5,7 +5,8 @@ import app.creditCard.model.CreditCard;
 import app.creditCard.service.CreditCardService;
 import app.email.client.dto.Email;
 import app.email.service.EmailService;
-import app.exception.DomainException;
+import app.exception.ResourceNotFoundException;
+import app.exception.UsernameAlreadyExistException;
 import app.pet.model.Pet;
 import app.security.AuthenticationMetaData;
 import app.user.model.User;
@@ -45,7 +46,7 @@ public class UserService implements UserDetailsService {
         Optional<User> userOptional = this.userRepository.findByUsername(registerRequest.getUsername());
 
         if (userOptional.isPresent()) {
-            throw new DomainException("Username [%s] already exist.".formatted(registerRequest.getUsername()));
+            throw new UsernameAlreadyExistException("Username %s already exist.".formatted(registerRequest.getUsername()), "/register");
         }
 
         User user = initializaUser(registerRequest);
@@ -84,13 +85,13 @@ public class UserService implements UserDetailsService {
     }
 
     public User getById(UUID id) {
-        return this.userRepository.findById(id).orElseThrow(() -> new DomainException("User with id [%s] does not exist.".formatted(id)));
+        return this.userRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("User with id [%s] does not exist.".formatted(id)));
     }
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         User user = this.userRepository.findByUsername(username)
-                .orElseThrow(() -> new DomainException("User with this username does not exist."));
+                .orElseThrow(() -> new ResourceNotFoundException("User with this username does not exist."));
 
         return new AuthenticationMetaData(user.getId(), user.getUsername(), user.getPassword(),
                 user.getRole(), user.isActive(), user.getProfilePicture(), user.getFavouritePets());
@@ -108,7 +109,7 @@ public class UserService implements UserDetailsService {
     }
 
     private User getUserByUsername(RegisterRequest registerRequest) {
-        return userRepository.findByUsername(registerRequest.getUsername()).orElseThrow(() -> new DomainException("User with username [%s] does not exist.".formatted(registerRequest.getUsername())));
+        return userRepository.findByUsername(registerRequest.getUsername()).orElseThrow(() -> new ResourceNotFoundException("User with username [%s] does not exist.".formatted(registerRequest.getUsername())));
     }
 
     public List<Adoption> sortAdoptionRequests(User user) {

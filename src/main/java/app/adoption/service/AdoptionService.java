@@ -4,7 +4,8 @@ import app.adoption.model.Adoption;
 import app.adoption.model.RequestStatus;
 import app.adoption.repository.AdoptionRepository;
 import app.email.service.EmailService;
-import app.exception.DomainException;
+import app.exception.DuplicateAdoptionRequestException;
+import app.exception.ResourceNotFoundException;
 import app.pet.model.Pet;
 import app.pet.service.PetService;
 import app.user.model.User;
@@ -29,30 +30,15 @@ public class AdoptionService {
     }
 
     public void sendAdoptionRequest(Pet pet, User user, AdoptionRequest adoptionRequest) {
-        if (adoptionRequest.getAge() < 18) {
-            throw new DomainException("You must be 18 or older to adopt a pet!");
-        }
-
         Adoption optionalAdoption = adoptionRepository
                 .findAll()
                 .stream()
                 .filter(a -> a.getOwner().getId().equals(user.getId()) && a.getPet().getId().equals(pet.getId()))
                 .findFirst()
                 .orElse(null);
-//        Optional<Adoption> optionalAdoption = adoptionRepository.findByPetId(pet.getId());
-
-//        if (optionalAdoption.isPresent()) {
-//            Adoption adoption = optionalAdoption.get();
-//            User optionalUser = adoption.getOwners().stream().filter(a -> a.getId().equals(user.getId())).findFirst().orElse(null);
-//            if (optionalUser != null) {
-//                if (optionalUser.getId().equals(user.getId())) {
-//                    throw new DomainException("You already sent adoption request for this pet.");
-//                }
-//            }
-//        }
 
         if (optionalAdoption != null) {
-            throw new DomainException("You already sent adoption request for this pet.");
+            throw new DuplicateAdoptionRequestException("You already sent adoption request for this pet.");
         }
 
         Adoption adoption = Adoption.builder()
@@ -73,7 +59,7 @@ public class AdoptionService {
     }
 
     public Adoption getById(UUID id) {
-       return adoptionRepository.findById(id).orElseThrow(() -> new DomainException("Adoption with id [%s] does not exist.".formatted(id)));
+       return adoptionRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Adoption with id [%s] does not exist.".formatted(id)));
     }
 
     public void approveRequestStatus(Adoption adoption, Pet pet) {
@@ -105,16 +91,4 @@ public class AdoptionService {
     public List<Adoption> getAllAdoptions() {
         return adoptionRepository.findAll();
     }
-
-//    private List<User> addUserToAdoption(AdoptionRequest adoptionRequest, User user) {
-//        List<User> owners = adoptionRequest.getPotentialOwners();
-//        if (owners != null) {
-//            owners.add(user);
-//            return owners;
-//        }
-//
-//        owners = new ArrayList<>();
-//        owners.add(user);
-//        return owners;
-//    }
 }

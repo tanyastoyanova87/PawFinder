@@ -9,6 +9,7 @@ import app.user.service.UserService;
 import app.web.dto.AddPetRequest;
 import app.web.dto.AdoptionRequest;
 import jakarta.validation.Valid;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -44,6 +45,7 @@ public class PetController {
     }
 
     @GetMapping("/add-pet")
+    @PreAuthorize("hasRole('ADMIN')")
     public ModelAndView getNewPetForAdoptionPage() {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("add-pet");
