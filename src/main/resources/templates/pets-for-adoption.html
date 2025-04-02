@@ -22,13 +22,6 @@
         <a th:href="@{'/pets-for-adoption/' + ${pet.id} + '/info'}"><img th:src="${pet.picture}" alt="Pet picture"></a>
         <div class="name-likes">
             <a th:href="@{'/pets-for-adoption/' + ${pet.id} + '/info'}"><p th:text="${pet.name}"></p></a>
-            <form th:if="${user}" th:action="@{'/pets-for-adoption/' + ${pet.id} + '/like'}" method="post"
-                  onsubmit="toggleHeart(event, this)">
-                <button type="submit" class="like-button"
-                        th:classappend="${#lists.contains(user.favouritePets, pet) ? 'liked' : ''}">
-                    <i class="fa-solid fa-heart"></i>
-                </button>
-            </form>
         </div>
     </section>
     <div th:if="${user}">
@@ -39,34 +32,4 @@
 </article>
 <div class="same-background" th:replace="~{fragments/commons::footer}"></div>
 </body>
-
-<script>
-    function toggleHeart(event, form) {
-        event.preventDefault();
-
-        let heartIcon = form.querySelector('i');
-        heartIcon.classList.toggle('liked');
-
-        // Now we send the form data asynchronously (AJAX)
-        let formData = new FormData(form); // Get form data
-
-        fetch(form.action, {
-            method: 'POST',
-            body: formData, // Send form data
-        })
-            .then(response => response.json()) // If response is JSON, handle here
-            .then(data => {
-                // You can handle any response if needed, for example updating UI dynamically
-                // You can log the response or manipulate other parts of the page
-                if (data.response) {
-                    heartIcon.style.color = '#9c5628'; // Change color to liked
-                } else {
-                    heartIcon.style.color = ''; // Reset to default color
-                }
-                console.log('Favorite updated:', data);
-            })
-            .catch(error => console.error('Error:', error)); // Handle any errors
-
-    }
-</script>
 </html>

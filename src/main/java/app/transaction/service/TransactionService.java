@@ -37,6 +37,6 @@ public class TransactionService {
     }
 
     public List<Transaction> findAllTransactionsByUserId(UUID id) {
-       return transactionRepository.findAllByOwnerId(id);
+        return transactionRepository.findAllByOwnerIdOrderByCreatedOnDesc(id);
     }
 }

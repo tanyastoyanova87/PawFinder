@@ -23,7 +23,7 @@
         <img src="/images/photo-1543852786-1cf6624b9987.jpg" alt="Dog picture">
     </section>
     <section class="donation">
-        <p>Choose an amount or type in your own</p>
+        <p class="header-form">Choose an amount or type in your own</p>
         <form class="buttons" th:action="@{/donations/ready-amount}" th:method="POST">
             <button type="submit" class="donation-amount" name="amount" th:value="10">€10</button>
             <button type="submit" class="donation-amount" name="amount" th:value="20">€20</button>
@@ -34,15 +34,16 @@
         </form>
 
         <form class="donate-button" th:action="@{/donations/amount}" th:method="POST" th:object="${donationRequest}">
-        <section class="input-donation">
-            <label for="amount"></label>
-            <section class="input-icon">
-                <i class="fa-solid fa-euro-sign"></i>
-                <input type="number" placeholder="0" id="amount" th:field="*{amount}" required>
+            <section class="input-donation">
+                <label for="amount"></label>
+                <section class="input-icon">
+                    <i class="fa-solid fa-euro-sign"></i>
+                    <input type="number" placeholder="0" id="amount" th:field="*{amount}" required>
+                </section>
             </section>
-        </section>
-        <p class="input-error" th:if="${#fields.hasErrors('amount')}"
-           th:errors="*{amount}"></p>
+            <p class="input-error" th:if="${#fields.hasErrors('amount')}"
+               th:errors="*{amount}"></p>
+            <p class="input-error" th:text="${insufficientFundsException}"></p>
 
             <button type="submit">DONATE »</button>
         </form>

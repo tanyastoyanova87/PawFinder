@@ -62,9 +62,7 @@ public class AdoptionService {
        return adoptionRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Adoption with id [%s] does not exist.".formatted(id)));
     }
 
-    public void approveRequestStatus(Adoption adoption, Pet pet) {
-        petService.checkIfPetIsAdopted(adoptionRepository.findAllByPetId(pet.getId()), pet);
-
+    public void approveRequestStatus(Adoption adoption) {
         adoption.setRequestStatus(RequestStatus.APPROVED);
         petService.setOwnerOfPet(adoption);
 
@@ -85,10 +83,14 @@ public class AdoptionService {
         String email = adoption.getOwner().getEmail();
         String sender = "pawfinder2025@gmail.com";
         emailService.sendEmail(adoption.getOwner().getId(), subjectEmail, bodyEmail, email, sender);
+
         adoptionRepository.save(adoption);
     }
 
-    public List<Adoption> getAllAdoptions() {
-        return adoptionRepository.findAll();
+    public List<Adoption> getAllPendingAdoptions() {
+        return adoptionRepository.findAllByOrderByRequestedOn()
+                .stream()
+                .filter(adoption -> adoption.getRequestStatus().name().equals("PENDING"))
+                .toList();
     }
 }

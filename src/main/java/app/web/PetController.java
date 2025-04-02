@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/pets-for-adoption")
@@ -38,7 +37,7 @@ public class PetController {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("pets-for-adoption");
 
-        List<Pet> pets = petService.getAllPets().stream().filter(pet -> !pet.isAdopted()).toList();
+        List<Pet> pets = petService.findAllNonAdoptedPets();
         modelAndView.addObject("pets", pets);
 
         return modelAndView;
@@ -55,6 +54,7 @@ public class PetController {
     }
 
     @PostMapping("/add-pet")
+    @PreAuthorize("hasRole('ADMIN')")
     public String addNewPetForAdoption(@Valid @ModelAttribute AddPetRequest addPetRequest, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             return "add-pet";
@@ -62,36 +62,6 @@ public class PetController {
 
         petService.addPet(addPetRequest);
         return "redirect:/pets-for-adoption";
-    }
-
-
-//    @PostMapping("/{id}/like")
-//    @ResponseBody
-//    public ResponseEntity<Map<String, Object>> likePet(@PathVariable UUID id, @AuthenticationPrincipal AuthenticationMetaData authenticationMetaData) {
-//        Pet pet = petService.getById(id);
-//        User user = userService.getById(authenticationMetaData.getId());
-//        userService.likePet(pet, user);
-//
-//        Map<String, Object> response = new HashMap<>();
-//        response.put("liked", user.getFavouritePets().contains(pet));
-//
-//        return ResponseEntity.ok(response);
-//    }
-
-    @GetMapping("/{id}/like")
-    public ModelAndView getFavouritePets(@PathVariable UUID id, @AuthenticationPrincipal AuthenticationMetaData authenticationMetaData) {
-        ModelAndView modelAndView = new ModelAndView();
-        List<Pet> allPets = petService.getAllPets();
-        modelAndView.addObject("allPets", allPets);
-
-        User user = userService.getById(authenticationMetaData.getId());
-        Set<UUID> likedPets = allPets.stream()
-                .filter(pet -> userService.isPetLikedByUser(pet, user))
-                .map(Pet::getId).collect(Collectors.toSet());
-        modelAndView.addObject("likedPets", likedPets);
-
-
-        return new ModelAndView("redirect:/pets-for-adoption");
     }
 
     @GetMapping("/{id}/info")
@@ -112,29 +82,27 @@ public class PetController {
         Pet pet = petService.getById(id);
         modelAndView.addObject("pet", pet);
         modelAndView.addObject("adoptionRequest", AdoptionRequest.builder().build());
+
         return modelAndView;
     }
 
     @PostMapping("/{id}/info/adoption")
     public ModelAndView adoptionRequest(@PathVariable UUID id, @Valid @ModelAttribute AdoptionRequest adoptionRequest, BindingResult bindingResult, @AuthenticationPrincipal AuthenticationMetaData authenticationMetaData) {
         Pet pet = petService.getById(id);
+        ModelAndView modelAndView = new ModelAndView();
 
         if (bindingResult.hasErrors()) {
-            ModelAndView modelAndView = new ModelAndView();
             modelAndView.setViewName("adoption");
+
             modelAndView.addObject("pet", pet);
             modelAndView.addObject("adoptionRequest", adoptionRequest);
+
             return modelAndView;
         }
 
-        ModelAndView modelAndView = new ModelAndView();
         User user = userService.getById(authenticationMetaData.getId());
-
         adoptionService.sendAdoptionRequest(pet, user, adoptionRequest);
 
-        modelAndView.addObject("pet", pet);
-        modelAndView.addObject("adoptionRequest", adoptionRequest);
-
-        return new ModelAndView("redirect:/pets-for-adoption");
+        return new ModelAndView("redirect:/users/" + authenticationMetaData.getId() + "/profile/adoption-requests");
     }
 }

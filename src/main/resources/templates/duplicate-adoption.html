@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PawFinder</title>
+    <link rel="stylesheet" type="text/css" href="/css/commons.css">
+    <link rel="stylesheet" type="text/css" href="/css/duplicate-adoption.css">
+    <script src="https://kit.fontawesome.com/f4eab0c21e.js" crossorigin="anonymous"></script>
+</head>
+<body>
+<div class="container-background">
+    <header th:replace="~{fragments/commons::header}"></header>
+</div>
+
+<section class="container-duplicate-adoption">
+    <section class="text-duplicate-adoption">
+        <h1>Oh, no!</h1>
+        <p>You’ve already submitted an adoption request for this pet. Pick a new friend!</p>
+        <p class="status-code">Error code 409</p>
+    </section>
+    <section class="png-duplicate-adoption">
+        <img src="/images/image-from-rawpixel-id-16722116-png.png" alt="Dog photo">
+    </section>
+</section>
+<footer class="same-background" th:replace="~{fragments/commons::footer}"></footer>
+</body>
+</html>

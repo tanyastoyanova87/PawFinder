@@ -1,5 +1,6 @@
 package app.exception;
 
+
 public class InsufficientFundsException extends RuntimeException {
 
     public InsufficientFundsException() {

@@ -1,6 +1,5 @@
 package app.security;
 
-import app.pet.model.Pet;
 import app.user.model.UserRole;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -22,7 +21,6 @@ public class AuthenticationMetaData implements UserDetails {
     private UserRole role;
     private boolean isActive;
     private String profilePicture;
-    private List<Pet> favouritePets;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

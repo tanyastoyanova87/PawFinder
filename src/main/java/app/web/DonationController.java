@@ -68,6 +68,7 @@ public class DonationController {
         }
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("donation");
+
         modelAndView.addObject("amount", amount);
         modelAndView.addObject("donationRequest", donationRequest);
 
@@ -75,7 +76,7 @@ public class DonationController {
     }
 
     @PostMapping("/amount")
-    public String getDonationAmount(@Valid @ModelAttribute DonationRequest donationRequest, BindingResult bindingResult, @AuthenticationPrincipal AuthenticationMetaData authenticationMetaData) {
+    public String donateAmount(@Valid @ModelAttribute DonationRequest donationRequest, BindingResult bindingResult, @AuthenticationPrincipal AuthenticationMetaData authenticationMetaData) {
         if (bindingResult.hasErrors()) {
             return "donation";
         }
@@ -84,6 +85,6 @@ public class DonationController {
         User user = userService.getById(userId);
 
         donationService.donateAmount(user, donationRequest);
-        return "redirect:/users/" + userId + "/profile/credit-card";
+        return "redirect:/users/" + userId + "/profile/transactions";
     }
 }

@@ -18,7 +18,7 @@ public class CreditCardService {
         this.creditCardRepository = creditCardRepository;
     }
 
-    public CreditCard generateCreditCard(User user) {
+    public CreditCard createNewCreditCard(User user) {
         CreditCard creditCard = CreditCard.builder()
                 .owner(user)
                 .cardHolderName(user.getFirstName() + " " + user.getLastName())

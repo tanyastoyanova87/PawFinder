@@ -53,7 +53,7 @@ public class DonationService {
 
         donationRepository.save(donation);
 
-        String description = "Donation for %s from %s to PawFinder.".formatted(donationRequest.getAmount(), user.getId());
+        String description = "Donation for €%s from %s to PawFinder.".formatted(donationRequest.getAmount(), user.getFirstName());
         transactionService.createNewTransaction(user, user.getFirstName() + " " + user.getLastName(),
                 receiver, donationRequest.getAmount(), creditCard.getBalance(), TransactionStatus.SUCCEEDED,
                 description, null);
@@ -65,6 +65,6 @@ public class DonationService {
     }
 
     public List<Donation> findAll() {
-        return donationRepository.findAll();
+        return donationRepository.findAllByOrderByCreatedOnDesc();
     }
 }

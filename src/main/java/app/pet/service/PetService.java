@@ -1,7 +1,6 @@
 package app.pet.service;
 
 import app.adoption.model.Adoption;
-import app.exception.PetAlreadyAdoptedException;
 import app.exception.ResourceNotFoundException;
 import app.exception.UsernameAlreadyExistException;
 import app.pet.model.Pet;
@@ -71,11 +70,7 @@ public class PetService {
         petRepository.save(pet);
     }
 
-    public void checkIfPetIsAdopted(List<Adoption> adoptions, Pet pet) {
-        for (Adoption adoption : adoptions) {
-            if (pet.isAdopted()) {
-                throw new PetAlreadyAdoptedException("Pet with id [%s] is already adopted.".formatted(adoption.getPet().getId()));
-            }
-        }
+    public List<Pet> findAllNonAdoptedPets() {
+      return petRepository.findAll().stream().filter(pet -> !pet.isAdopted()).toList();
     }
 }

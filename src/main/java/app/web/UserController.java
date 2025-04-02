@@ -2,7 +2,6 @@ package app.web;
 
 import app.adoption.model.Adoption;
 import app.creditCard.model.CreditCard;
-import app.email.client.dto.Email;
 import app.transaction.model.Transaction;
 import app.transaction.service.TransactionService;
 import app.user.model.User;
@@ -43,16 +42,7 @@ public class UserController {
 
         List<User> allUsers = userService.getAllUsers();
         modelAndView.addObject("allUsers", allUsers);
-
-        for (User user : allUsers) {
-            List<Email> succeededEmails = userService.getEmailsByUser(user.getId(), "SUCCEEDED");
-            List<Email> failedEmails = userService.getEmailsByUser(user.getId(), "FAILED");
-
-            user.setSuccessfulEmails(succeededEmails.size());
-            user.setFailedEmails(failedEmails.size());
-
-            userService.setUserEmails(succeededEmails, failedEmails, user);
-        }
+        userService.setUserEmails(allUsers);
 
         return modelAndView;
     }
@@ -84,6 +74,7 @@ public class UserController {
 
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("edit-profile");
+
         modelAndView.addObject("user", user);
         modelAndView.addObject("editProfileRequest", DtoMapper.mapUserToEditProfileRequest(user));
 
@@ -97,6 +88,7 @@ public class UserController {
         if (bindingResult.hasErrors()) {
             ModelAndView modelAndView = new ModelAndView();
             modelAndView.setViewName("edit-profile");
+
             modelAndView.addObject("user");
             modelAndView.addObject("editProfileRequest", editProfileRequest);
 
@@ -113,8 +105,7 @@ public class UserController {
         modelAndView.setViewName("user-adoption-requests");
 
         User user = this.userService.getById(id);
-        List<Adoption> adoptions = userService.sortAdoptionRequests(user);
-        List<Adoption> requests = adoptions.stream().filter(adoption -> adoption.getRequestStatus().name().equals("PENDING") || adoption.getRequestStatus().name().equals("REJECTED")).toList();
+        List<Adoption> requests = userService.getPendingAndRejectedAdoptions(user);
 
         modelAndView.addObject("user", user);
         modelAndView.addObject("requests", requests);
@@ -128,8 +119,8 @@ public class UserController {
         modelAndView.setViewName("user-completed-adoptions");
 
         User user = this.userService.getById(id);
-        List<Adoption> adoptions = userService.sortAdoptionRequests(user);
-        List<Adoption> approvedAdoptions = adoptions.stream().filter(adoption -> adoption.getRequestStatus().name().equals("APPROVED")).toList();
+        List<Adoption> approvedAdoptions = userService.getApprovedAdoptions(user);
+
         modelAndView.addObject("user", user);
         modelAndView.addObject("approvedAdoptions", approvedAdoptions);
 
@@ -143,6 +134,7 @@ public class UserController {
 
         User user = userService.getById(id);
         CreditCard creditCard = user.getCreditCard();
+
         modelAndView.addObject("user", user);
         modelAndView.addObject("creditCard", creditCard);
 
@@ -155,6 +147,7 @@ public class UserController {
         modelAndView.setViewName("user-transactions");
 
         List<Transaction> transactions = transactionService.findAllTransactionsByUserId(id);
+
         modelAndView.addObject("transactions", transactions);
         return modelAndView;
     }

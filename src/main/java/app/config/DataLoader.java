@@ -5,7 +5,10 @@ import app.pet.model.Gender;
 import app.pet.model.HairLength;
 import app.pet.model.Specie;
 import app.pet.service.PetService;
+import app.user.model.Country;
+import app.user.service.UserService;
 import app.web.dto.AddPetRequest;
+import app.web.dto.RegisterRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
@@ -13,15 +16,35 @@ import org.springframework.stereotype.Component;
 @Component
 public class DataLoader implements CommandLineRunner {
 
+    private final UserService userService;
     private final PetService petService;
 
     @Autowired
-    public DataLoader(PetService petRepository) {
+    public DataLoader(PetService petRepository, UserService userService) {
         this.petService = petRepository;
+        this.userService = userService;
     }
 
     @Override
     public void run(String... args) {
+
+        if (!userService.getAllUsers().isEmpty()) {
+            return;
+        }
+
+        RegisterRequest registerRequest = RegisterRequest.builder()
+                .firstName("Test")
+                .lastName("Test")
+                .username("admin")
+                .email("admin@abv.bg")
+                .password("admin123A")
+                .confirmPassword("admin123A")
+                .country(Country.BULGARIA)
+                .build();
+
+        userService.register(registerRequest);
+        userService.giveRoleToAdmin(registerRequest);
+
         if (!petService.getAllPets().isEmpty()) {
             return;
         }

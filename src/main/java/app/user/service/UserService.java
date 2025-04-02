@@ -51,12 +51,10 @@ public class UserService implements UserDetailsService {
 
         User user = initializaUser(registerRequest);
         userRepository.save(user);
-
-        CreditCard creditCard = creditCardService.generateCreditCard(user);
-        user.setCreditCard(creditCard);
-        userRepository.save(user);
-
         log.info("Successfully created user with username [%s].".formatted(user.getUsername()));
+
+        generateCreditCardForNewUser(user);
+        log.info("Successfully created credit card for user with username [%s].".formatted(user.getUsername()));
 
         String subjectEmail = "Successful registration";
         String bodyEmail = "Welcome to PawFinder, %s!%nWe're excited to have you as part of our community. A virtual credit card has been created for you. You can use it to support our pets in need.%nBest regards!%nThe PawFinder Team".formatted(user.getFirstName());
@@ -65,8 +63,15 @@ public class UserService implements UserDetailsService {
         emailService.sendEmail(user.getId(), subjectEmail, bodyEmail, email, sender);
     }
 
+    private void generateCreditCardForNewUser(User user) {
+        CreditCard creditCard = creditCardService.createNewCreditCard(user);
+        user.setCreditCard(creditCard);
+        userRepository.save(user);
+    }
+
     public User initializaUser(RegisterRequest registerRequest) {
         return User.builder()
+                .username(registerRequest.getUsername())
                 .username(registerRequest.getUsername())
                 .firstName(registerRequest.getFirstName())
                 .lastName(registerRequest.getLastName())
@@ -94,14 +99,14 @@ public class UserService implements UserDetailsService {
                 .orElseThrow(() -> new ResourceNotFoundException("User with this username does not exist."));
 
         return new AuthenticationMetaData(user.getId(), user.getUsername(), user.getPassword(),
-                user.getRole(), user.isActive(), user.getProfilePicture(), user.getFavouritePets());
+                user.getRole(), user.isActive(), user.getProfilePicture());
     }
 
     public List<User> getAllUsers() {
-        return userRepository.findAll();
+        return userRepository.findAllByOrderByCreatedOnDesc();
     }
 
-    public void changeRoleOfAdmin(RegisterRequest registerRequest) {
+    public void giveRoleToAdmin(RegisterRequest registerRequest) {
         User user = getUserByUsername(registerRequest);
         user.setRole(UserRole.ADMIN);
 
@@ -112,31 +117,11 @@ public class UserService implements UserDetailsService {
         return userRepository.findByUsername(registerRequest.getUsername()).orElseThrow(() -> new ResourceNotFoundException("User with username [%s] does not exist.".formatted(registerRequest.getUsername())));
     }
 
-    public List<Adoption> sortAdoptionRequests(User user) {
-        return user.getAdoptions().stream().sorted(Comparator.comparing(Adoption::getRequestedOn)).toList();
-    }
-
     public void setPetToUser(Pet pet, User owner) {
         List<Pet> pets = owner.getPets();
         pets.add(pet);
 
         userRepository.save(owner);
-    }
-
-    public void likePet(Pet pet, User user) {
-        List<Pet> favouritePets = user.getFavouritePets();
-        if (favouritePets.contains(pet)) {
-            favouritePets.remove(pet);
-        } else {
-            favouritePets.add(pet);
-        }
-
-        userRepository.save(user);
-    }
-
-    public boolean isPetLikedByUser(Pet pet, User user) {
-        return user.getFavouritePets().stream()
-                .anyMatch(p -> p.getId().equals(pet.getId()));
     }
 
     public void editUserProfile(User user, EditProfileRequest editProfileRequest) {
@@ -167,18 +152,42 @@ public class UserService implements UserDetailsService {
         userRepository.save(user);
     }
 
-    public void setUserEmails(List<Email> succeededEmails, List<Email> failedEmails, User user) {
-        user.setSuccessfulEmails(succeededEmails.size());
-        user.setFailedEmails(failedEmails.size());
-
-        userRepository.save(user);
-    }
-
     public void changeStatus(User user) {
         if (user.isActive()) {
             user.setActive(false);
         }
 
         userRepository.save(user);
+    }
+
+    public List<Adoption> getPendingAndRejectedAdoptions(User user) {
+        return user.getAdoptions().stream()
+                .filter(adoption -> adoption.getRequestStatus().name()
+                        .equals("PENDING") || adoption.getRequestStatus().name().equals("REJECTED"))
+                .sorted(Comparator.comparing(Adoption::getRequestedOn).reversed())
+                .toList();
+    }
+
+    public List<Adoption> getApprovedAdoptions(User user) {
+        return user.getAdoptions().stream()
+                .filter(adoption -> adoption.getRequestStatus().name().equals("APPROVED"))
+                .sorted(Comparator.comparing(Adoption::getRequestedOn).reversed())
+                .toList();
+    }
+
+    public void setUserEmails(List<User> allUsers) {
+        for (User user : allUsers) {
+            List<Email> succeededEmails = getEmailsByUser(user.getId(), "SUCCEEDED");
+            List<Email> failedEmails = getEmailsByUser(user.getId(), "FAILED");
+
+            user.setSuccessfulEmails(succeededEmails.size());
+            user.setFailedEmails(failedEmails.size());
+
+            userRepository.save(user);
+        }
+    }
+
+    public User getAdmin() {
+        return userRepository.findByRole(UserRole.ADMIN);
     }
 }

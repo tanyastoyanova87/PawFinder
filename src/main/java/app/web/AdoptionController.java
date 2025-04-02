@@ -2,7 +2,7 @@ package app.web;
 
 import app.adoption.model.Adoption;
 import app.adoption.service.AdoptionService;
-import app.pet.model.Pet;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -22,12 +22,12 @@ public class AdoptionController {
     }
 
     @GetMapping("/requests")
-    public ModelAndView getAdminPanel() {
+    @PreAuthorize("hasRole('ADMIN')")
+    public ModelAndView getRequests() {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("requests");
 
-        List<Adoption> allAdoptions = adoptionService.getAllAdoptions();
-        List<Adoption> pendingAdoptions = allAdoptions.stream().filter(adoption -> adoption.getRequestStatus().name().equals("PENDING")).toList();
+        List<Adoption> pendingAdoptions = adoptionService.getAllPendingAdoptions();
         modelAndView.addObject("pendingAdoptions", pendingAdoptions);
 
         return modelAndView;
@@ -36,10 +36,9 @@ public class AdoptionController {
     @PutMapping("/requests/{id}/approve")
     public String approveAdoption(@PathVariable UUID id) {
         Adoption adoption = adoptionService.getById(id);
-        Pet pet = adoption.getPet();
-        adoptionService.approveRequestStatus(adoption, pet);
+        adoptionService.approveRequestStatus(adoption);
 
-        return "redirect:/admin-panel";
+        return "redirect:/requests";
     }
 
     @PutMapping("/requests/{id}/reject")
@@ -47,6 +46,6 @@ public class AdoptionController {
         Adoption adoption = adoptionService.getById(id);
         adoptionService.rejectRequestStatus(adoption);
 
-        return "redirect:/admin-panel";
+        return "redirect:/requests";
     }
 }

@@ -21,21 +21,21 @@
             <label for="firstName"></label>
             <section class="input-icon">
                 <i class="fa-solid fa-user"></i>
-                <input type="text" placeholder="First name" id="firstName" th:field="*{firstName}">
+                <input type="text" placeholder="First name" id="firstName" th:field="*{firstName}" required>
                 <p class="input-error" th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}"></p>
             </section>
 
             <label for="lastName"></label>
             <section class="input-icon">
                 <i class="fa-solid fa-user"></i>
-                <input type="text" placeholder="Last name" id="lastName" th:field="*{lastName}">
+                <input type="text" placeholder="Last name" id="lastName" th:field="*{lastName}" required>
                 <p class="input-error" th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}"></p>
             </section>
 
             <label for="email"></label>
             <section class="input-icon">
                 <i class="fa-solid fa-envelope"></i>
-                <input type="email" placeholder="Email" id="email" th:field="*{email}">
+                <input type="email" placeholder="Email" id="email" th:field="*{email}" required>
                 <p class="input-error" th:if="${#fields.hasErrors('email')}"
                    th:errors="*{email}"></p>
             </section>
