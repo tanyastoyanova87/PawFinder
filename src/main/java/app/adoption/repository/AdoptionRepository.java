@@ -10,6 +10,5 @@ import java.util.UUID;
 @Repository
 public interface AdoptionRepository extends JpaRepository<Adoption, UUID> {
 
-    List<Adoption> findAllByPetId(UUID id);
     List<Adoption> findAllByOrderByRequestedOn();
 }

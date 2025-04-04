@@ -55,18 +55,7 @@ header, div .same-background {
 }
 
 .pet-adoption-requests td {
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
     text-align: center;
-}
-
-.pet-adoption-requests .id {
-    position: relative;
-    max-width: 60px;
-    overflow: hidden;
-    white-space: nowrap;
-    text-overflow: ellipsis;
 }
 
 .profile-pic-name {
@@ -85,7 +74,7 @@ header, div .same-background {
 }
 
 .profile-pic-name img {
-    max-width: 50px;
+    max-width: 70px;
     border-radius: 50%;
 }
 

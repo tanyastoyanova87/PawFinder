@@ -55,20 +55,8 @@ header, div .same-background {
 }
 
 .pet-adoption-requests td {
-    /*white-space: wrap;*/
-    /*overflow: hidden;*/
-    /*text-overflow: ellipsis;*/
     text-align: center;
-    /*max-width: 50px;*/
 }
-
-/*.pet-adoption-requests .id {*/
-/*    position: relative;*/
-/*    max-width: 60px;*/
-/*    overflow: hidden;*/
-/*    white-space: nowrap;*/
-/*    text-overflow: ellipsis;*/
-/*}*/
 
 .profile-pic-name {
     display: flex;

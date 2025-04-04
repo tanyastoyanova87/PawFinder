@@ -59,7 +59,7 @@ public class AdoptionService {
     }
 
     public Adoption getById(UUID id) {
-       return adoptionRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Adoption with id [%s] does not exist.".formatted(id)));
+        return adoptionRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Adoption with id [%s] does not exist.".formatted(id)));
     }
 
     public void approveRequestStatus(Adoption adoption) {

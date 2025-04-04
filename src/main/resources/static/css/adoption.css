@@ -85,7 +85,7 @@ label {
 input[type="radio"] {
     width: 16px;
     height: 16px;
-    accent-color: #9c5628; /* Change to your theme color */
+    accent-color: #9c5628;
 }
 
 input {
