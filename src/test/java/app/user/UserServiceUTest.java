@@ -74,6 +74,24 @@ public class UserServiceUTest {
     }
 
     @Test
+    void givenRegisterRequest_whenGiveRoleToAdmin_thenChangeRoleFromUserToAdmin() {
+        User user = User.builder()
+                .username("name")
+                .role(UserRole.USER)
+                .build();
+
+        RegisterRequest registerRequest = RegisterRequest.builder()
+                .username("name")
+                .build();
+
+        when(userRepository.findByUsername("name")).thenReturn(Optional.of(user));
+        userService.giveRoleToAdmin(registerRequest);
+
+        assertThat(user.getRole()).isEqualTo(UserRole.ADMIN);
+        verify(userRepository, times(1)).save(user);
+    }
+
+    @Test
     void givenUserWithRoleUser_whenChangeRoleByAdmin_thenUserBecomesAdmin() {
         User user = User.builder()
                 .role(UserRole.USER)
@@ -86,7 +104,7 @@ public class UserServiceUTest {
     }
 
     @Test
-    void givenUserWithRoleAdmin_whenChangeRoleByAdmin_thenUserBecomesUser() {
+    void givenUserWithRoleAdmin_whenChangeRoleByAdmin_thenAdminBecomesUser() {
         User user = User.builder()
                 .role(UserRole.ADMIN)
                 .build();
@@ -98,7 +116,7 @@ public class UserServiceUTest {
     }
 
     @Test
-    void givenUserStatusActive_whenChangeStatus_thenUserInactive() {
+    void givenUserStatusActive_whenChangeStatus_thenUserBecomesInactive() {
         User user = User.builder()
                 .isActive(true)
                 .build();
@@ -106,6 +124,18 @@ public class UserServiceUTest {
         userService.changeStatus(user);
 
         assertThat(user.isActive()).isEqualTo(false);
+        verify(userRepository, times(1)).save(user);
+    }
+
+    @Test
+    void givenUserStatusInactive_whenChangeStatus_thenUserBecomesActive() {
+        User user = User.builder()
+                .isActive(false)
+                .build();
+
+        userService.changeStatus(user);
+
+        assertThat(user.isActive()).isEqualTo(true);
         verify(userRepository, times(1)).save(user);
     }
 
@@ -129,23 +159,6 @@ public class UserServiceUTest {
         verify(userRepository, times(1)).save(user);
     }
 
-    @Test
-    void givenRegisterRequest_whenGiveRoleToAdmin_thenChangeRoleFromUserToAdmin() {
-        User user = User.builder()
-                .username("name")
-                .role(UserRole.USER)
-                .build();
-
-        RegisterRequest registerRequest = RegisterRequest.builder()
-                .username("name")
-                .build();
-
-        when(userRepository.findByUsername("name")).thenReturn(Optional.of(user));
-        userService.giveRoleToAdmin(registerRequest);
-
-        assertThat(user.getRole()).isEqualTo(UserRole.ADMIN);
-        verify(userRepository, times(1)).save(user);
-    }
 
     @Test
     void givenRegisterRequest_whenInitializeUser_thenCreateNewUser() {
@@ -280,22 +293,6 @@ public class UserServiceUTest {
     }
 
     @Test
-    void givenUserIdAndStatus_whenGetEmailsByUser_thenReturnAllEmailsByUser() {
-        UUID userId = UUID.randomUUID();
-        String status = "SUCCESSFUL";
-
-        List<Email> mockEmails = List.of(
-                Email.builder().userId(userId).status("SUCCESSFUL").build(),
-                Email.builder().userId(userId).status("FAILED").build());
-
-        when(emailService.getAllEmails(userId)).thenReturn(mockEmails);
-        List<Email> emailsByUser = userService.getEmailsByUser(userId, status);
-
-        assertThat(emailsByUser).hasSize(1);
-        assertThat(emailsByUser).allMatch(email -> email.getStatus().equals(status));
-    }
-
-    @Test
     void givenExistingUsername_whenRegisterUser_thenThrowException() {
         String username = "username";
 
@@ -343,6 +340,21 @@ public class UserServiceUTest {
         assertThat(user.getUsername()).isEqualTo(username);
         assertThat(user.getEmail()).isEqualTo(email);
         assertThat(user.getFirstName()).isEqualTo("Name");
+    }
+
+    @Test
+    void givenUserIdAndStatus_whenGetEmailsByUser_thenReturnAllEmailsByUser() {
+        UUID userId = UUID.randomUUID();
+        String status = "SUCCESSFUL";
+
+        List<Email> mockEmails = List.of(
+                Email.builder().userId(userId).status("SUCCESSFUL").build(),
+                Email.builder().userId(userId).status("FAILED").build());
+
+        when(emailService.getAllEmails(userId)).thenReturn(mockEmails);
+        List<Email> emailsByUser = userService.getEmailsByUser(userId, status);
+        assertThat(emailsByUser).hasSize(1);
+        assertThat(emailsByUser).allMatch(email -> email.getStatus().equals(status));
     }
 
 }
