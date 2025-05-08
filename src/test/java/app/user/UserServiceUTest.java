@@ -200,11 +200,11 @@ public class UserServiceUTest {
     void givenExistingUser_whenGetByUserId_thenReturnUser() {
         UUID userId = UUID.randomUUID();
 
-        User user = User.builder().build();
+        User user = User.builder().id(userId).build();
         when(userRepository.findById(userId)).thenReturn(Optional.of(user));
 
-        User user1 = userService.getById(userId);
-        assertThat(user.getId()).isEqualTo(user1.getId());
+        User returnedUser = userService.getById(userId);
+        assertThat(user.getId()).isEqualTo(returnedUser.getId());
     }
 
     @Test

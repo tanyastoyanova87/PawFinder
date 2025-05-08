@@ -69,7 +69,7 @@ public class UserService implements UserDetailsService {
         userRepository.save(user);
     }
 
-    public User initializaUser(RegisterRequest registerRequest) {
+    public User initializaUser(RegisterRequest registerRequest) { //////////
         return User.builder()
                 .username(registerRequest.getUsername())
                 .firstName(registerRequest.getFirstName())
