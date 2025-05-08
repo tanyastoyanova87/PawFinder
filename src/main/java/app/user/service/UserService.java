@@ -72,7 +72,6 @@ public class UserService implements UserDetailsService {
     public User initializaUser(RegisterRequest registerRequest) {
         return User.builder()
                 .username(registerRequest.getUsername())
-                .username(registerRequest.getUsername())
                 .firstName(registerRequest.getFirstName())
                 .lastName(registerRequest.getLastName())
                 .email(registerRequest.getEmail())
@@ -106,7 +105,7 @@ public class UserService implements UserDetailsService {
         return userRepository.findAllByOrderByCreatedOnDesc();
     }
 
-    public void giveRoleToAdmin(RegisterRequest registerRequest) {
+    public void giveRoleToAdmin(RegisterRequest registerRequest) { //////////
         User user = getUserByUsername(registerRequest);
         user.setRole(UserRole.ADMIN);
 
@@ -124,7 +123,7 @@ public class UserService implements UserDetailsService {
         userRepository.save(owner);
     }
 
-    public void editUserProfile(User user, EditProfileRequest editProfileRequest) {
+    public void editUserProfile(User user, EditProfileRequest editProfileRequest) { ///////////
         user.setFirstName(editProfileRequest.getFirstName());
         user.setLastName(editProfileRequest.getLastName());
         user.setEmail(editProfileRequest.getEmail());
@@ -142,7 +141,7 @@ public class UserService implements UserDetailsService {
                 .toList();
     }
 
-    public void changeRoleByAdmin(User user) {
+    public void changeRoleByAdmin(User user) { ////////////
         if (user.getRole().name().equals("USER")) {
             user.setRole(UserRole.ADMIN);
         } else {
@@ -152,10 +151,8 @@ public class UserService implements UserDetailsService {
         userRepository.save(user);
     }
 
-    public void changeStatus(User user) {
-        if (user.isActive()) {
-            user.setActive(false);
-        }
+    public void changeStatus(User user) { ///////////////
+        user.setActive(!user.isActive());
 
         userRepository.save(user);
     }
@@ -187,7 +184,7 @@ public class UserService implements UserDetailsService {
         }
     }
 
-    public User getAdmin() {
+    public User getAdmin() { //////////
         return userRepository.findByRole(UserRole.ADMIN);
     }
 }

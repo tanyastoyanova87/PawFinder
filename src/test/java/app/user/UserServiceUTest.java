@@ -27,6 +27,7 @@ import java.time.LocalDateTime;
 import java.util.*;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.*;
 
@@ -159,28 +160,32 @@ public class UserServiceUTest {
         verify(userRepository, times(1)).save(user);
     }
 
-
     @Test
     void givenRegisterRequest_whenInitializeUser_thenCreateNewUser() {
+        String rawPass = "123123";
+        String encodedPass = "encoded123123";
+
         RegisterRequest registerRequest = RegisterRequest.builder()
                 .firstName("name")
                 .username("username")
                 .lastName("last")
                 .email("email")
-                .confirmPassword(passwordEncoder.encode("123123"))
-                .password(passwordEncoder.encode("123123"))
+                .confirmPassword(rawPass)
+                .password(rawPass)
                 .country(Country.BULGARIA)
                 .build();
 
+        when(passwordEncoder.encode(rawPass)).thenReturn(encodedPass);
         User user = userService.initializaUser(registerRequest);
 
         assertThat(registerRequest.getUsername()).isEqualTo(user.getUsername());
         assertThat(registerRequest.getFirstName()).isEqualTo(user.getFirstName());
         assertThat(registerRequest.getLastName()).isEqualTo(user.getLastName());
-        assertThat(registerRequest.getPassword()).isEqualTo(user.getPassword());
-        assertThat(registerRequest.getConfirmPassword()).isEqualTo(user.getConfirmPassword());
         assertThat(registerRequest.getCountry()).isEqualTo(user.getCountry());
         assertThat(registerRequest.getEmail()).isEqualTo(user.getEmail());
+
+        assertEquals(user.getPassword(), encodedPass);
+        assertEquals(user.getConfirmPassword(), encodedPass);
     }
 
     @Test
